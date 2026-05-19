@@ -1,0 +1,3816 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+
+<!-- ============================================================
+     PRIMARY SEO META
+     ============================================================ -->
+<title>IIM Cancer Screening Tool — IMACS 2023 Guideline Calculator</title>
+<meta name="description" content="Free clinical calculator for cancer screening in adults with idiopathic inflammatory myopathy (IIM), dermatomyositis, polymyositis, IMNM, and anti-synthetase syndrome. Implements the 2023 IMACS international guideline. No data stored. FHIR-ready exports for Epic, Cerner, and other EMRs.">
+<meta name="keywords" content="IIM cancer screening, idiopathic inflammatory myopathy, dermatomyositis cancer risk, polymyositis cancer screening, IMACS guideline, anti-TIF1g cancer, anti-NXP2 cancer, myositis cancer calculator, IIM cancer risk stratification, paraneoplastic dermatomyositis, FHIR clinical decision support, myositis malignancy screening">
+<meta name="author" content="IIM Cancer Screening Tool — independent implementation of the IMACS 2023 guideline">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+<meta name="googlebot" content="index, follow">
+<meta name="bingbot" content="index, follow">
+<meta name="rating" content="general">
+<meta http-equiv="Content-Language" content="en">
+
+<!-- Canonical URL (update href to your deployed URL when known) -->
+<link rel="canonical" href="https://iim-screening.app/">
+
+<!-- ============================================================
+     OPEN GRAPH (Facebook, LinkedIn, Slack, WhatsApp, etc.)
+     ============================================================ -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="IIM Cancer Screening Tool">
+<meta property="og:title" content="IIM Cancer Screening Tool — IMACS 2023 Guideline">
+<meta property="og:description" content="Risk-stratified cancer screening for adults with idiopathic inflammatory myopathy. Free clinical calculator implementing the 2023 IMACS international guideline. No patient data stored.">
+<meta property="og:url" content="https://iim-screening.app/">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://iim-screening.app/preview.png">
+<meta property="og:image:alt" content="IIM Cancer Screening Tool — IMACS 2023 Guideline Calculator">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+
+<!-- ============================================================
+     TWITTER / X CARDS
+     ============================================================ -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="IIM Cancer Screening Tool — IMACS 2023 Guideline">
+<meta name="twitter:description" content="Risk-stratified cancer screening for adults with idiopathic inflammatory myopathy. Implements the 2023 IMACS international guideline.">
+<meta name="twitter:image" content="https://iim-screening.app/preview.png">
+<meta name="twitter:image:alt" content="IIM Cancer Screening Tool preview">
+
+<!-- ============================================================
+     STRUCTURED DATA — JSON-LD
+     Tells search engines this is a medical calculator implementing
+     a peer-reviewed clinical guideline. Helps with rich snippets,
+     knowledge panel eligibility, and medical-content credibility.
+     ============================================================ -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "MedicalWebPage",
+  "name": "IIM Cancer Screening Tool",
+  "alternateName": ["IIM Cancer Screening Calculator", "Idiopathic Inflammatory Myopathy Cancer Screening Tool", "IMACS Guideline Calculator"],
+  "description": "Free clinical decision support tool that calculates individualized cancer screening recommendations for adults with idiopathic inflammatory myopathy (IIM), based on the 2023 IMACS international guideline. Stratifies patients into standard, moderate, and high cancer-risk categories using IIM subtype, autoantibody profile, age, sex, and clinical features.",
+  "url": "https://iim-screening.app/",
+  "inLanguage": "en",
+  "isAccessibleForFree": true,
+  "audience": {
+    "@type": "MedicalAudience",
+    "audienceType": "https://schema.org/Physician",
+    "name": "Licensed healthcare professionals (rheumatologists, neurologists, dermatologists, internal medicine)"
+  },
+  "about": [
+    {
+      "@type": "MedicalCondition",
+      "name": "Idiopathic Inflammatory Myopathy",
+      "alternateName": ["IIM", "Myositis"],
+      "code": {
+        "@type": "MedicalCode",
+        "codingSystem": "SNOMED CT",
+        "code": "396230008"
+      }
+    },
+    {
+      "@type": "MedicalCondition",
+      "name": "Dermatomyositis",
+      "code": {
+        "@type": "MedicalCode",
+        "codingSystem": "SNOMED CT",
+        "code": "396230008"
+      }
+    },
+    {
+      "@type": "MedicalCondition",
+      "name": "Polymyositis",
+      "code": {
+        "@type": "MedicalCode",
+        "codingSystem": "SNOMED CT",
+        "code": "31384009"
+      }
+    },
+    {
+      "@type": "MedicalCondition",
+      "name": "Anti-synthetase syndrome"
+    },
+    {
+      "@type": "MedicalCondition",
+      "name": "Immune-mediated necrotizing myopathy",
+      "alternateName": "IMNM"
+    }
+  ],
+  "mainContentOfPage": {
+    "@type": "WebPageElement",
+    "name": "IIM cancer screening risk calculator"
+  },
+  "citation": {
+    "@type": "ScholarlyArticle",
+    "name": "International Guideline for Idiopathic Inflammatory Myopathy-Associated Cancer Screening: an International Myositis Assessment and Clinical Studies Group (IMACS) initiative",
+    "author": [
+      { "@type": "Person", "name": "Alexander GS Oldroyd" },
+      { "@type": "Person", "name": "Jeffrey P Callen" },
+      { "@type": "Person", "name": "Hector Chinoy" },
+      { "@type": "Person", "name": "Lorinda Chung" },
+      { "@type": "Person", "name": "David Fiorentino" },
+      { "@type": "Person", "name": "Patrick Gordon" },
+      { "@type": "Person", "name": "Pedro M Machado" },
+      { "@type": "Person", "name": "Neil McHugh" },
+      { "@type": "Person", "name": "Albert Selva-O'Callaghan" },
+      { "@type": "Person", "name": "Jens Schmidt" },
+      { "@type": "Person", "name": "Sarah L Tansley" },
+      { "@type": "Person", "name": "Ruth Ann Vleugels" },
+      { "@type": "Person", "name": "Victoria P Werth" },
+      { "@type": "Person", "name": "Rohit Aggarwal" }
+    ],
+    "datePublished": "2023-11",
+    "isPartOf": {
+      "@type": "Periodical",
+      "name": "Nature Reviews Rheumatology",
+      "issn": "1759-4790"
+    },
+    "identifier": "10.1038/s41584-023-01045-w",
+    "url": "https://doi.org/10.1038/s41584-023-01045-w"
+  },
+  "lastReviewed": "2026-05",
+  "specialty": [
+    "Rheumatology",
+    "Dermatology",
+    "Neurology",
+    "Oncology"
+  ]
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "IIM Cancer Screening Tool",
+  "applicationCategory": "MedicalApplication",
+  "applicationSubCategory": "Clinical Decision Support",
+  "operatingSystem": "Web browser (any modern browser)",
+  "description": "Free, browser-based clinical calculator implementing the IMACS 2023 international guideline for cancer screening in adult-onset idiopathic inflammatory myopathy. Generates risk stratification and individualized screening plans. Exports to PDF, structured clinical note, and HL7 FHIR JSON. Processes all data locally; no patient information is transmitted or stored.",
+  "url": "https://iim-screening.app/",
+  "softwareVersion": "1.0",
+  "datePublished": "2026-05",
+  "inLanguage": "en",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "featureList": [
+    "Risk stratification per IMACS 2023 guideline (standard / moderate / high)",
+    "Live risk calculation as the clinician enters data",
+    "Inline clinical education for each risk factor",
+    "Country-specific regulatory and screening references",
+    "Nasopharyngeal carcinoma screening flag for NPC-risk regions",
+    "Red-flag symptom override (Recommendation 18)",
+    "Anti-TIF1γ+ DM PET-CT pathway (Recommendation 15)",
+    "Year 1/2/3 follow-up timeline for high-risk patients",
+    "PDF export (print-ready summary)",
+    "Structured clinical-note export (paste into Epic, Cerner, EMIS, SystmOne)",
+    "HL7 FHIR-aligned JSON export (RiskAssessment, Condition, Observation, CarePlan, ServiceRequest)",
+    "SNOMED CT and LOINC code mappings",
+    "No patient data stored — runs entirely client-side",
+    "Mobile-responsive design",
+    "Acknowledgment-gated entry"
+  ]
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is the IIM Cancer Screening Tool?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A free, browser-based clinical calculator that implements the 2023 IMACS international guideline for cancer screening in adults with idiopathic inflammatory myopathy. It stratifies patients into standard, moderate, or high cancer-risk categories and generates an individualized screening plan."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Who should use this tool?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Licensed healthcare professionals — rheumatologists, neurologists, dermatologists, and internal medicine clinicians — who care for adult patients with idiopathic inflammatory myopathy. The tool is decision support and does not replace clinical judgment."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does the tool store patient data?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. All risk calculations run locally within the user's browser. No patient information is transmitted to, collected by, or stored on any external server. Exported files (PDF, text, JSON) are generated in the browser and downloaded directly to the user's device."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What guideline does the tool implement?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The tool implements the 2023 International Guideline for Idiopathic Inflammatory Myopathy-Associated Cancer Screening, developed by the International Myositis Assessment and Clinical Studies Group (IMACS) and published in Nature Reviews Rheumatology (Oldroyd et al., 2023; DOI 10.1038/s41584-023-01045-w)."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Which patients are out of scope?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The tool does not apply to patients with juvenile-onset IIM (under 18 at symptom onset), verified inclusion body myositis (IBM), currently active or recently diagnosed cancer, or patients more than 3 years from IIM symptom onset (recommendations less validated)."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I export results to my EMR?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. The tool exports in three formats: a print-ready PDF, a structured clinical-note text format suitable for paste into Epic, Cerner, EMIS, or SystmOne, and a HL7 FHIR-aligned JSON Bundle with SNOMED CT and LOINC code mappings for system integration."
+      }
+    }
+  ]
+}
+</script>
+
+<!-- ============================================================
+     RESOURCE HINTS — performance signals to search engines
+     ============================================================ -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="dns-prefetch" href="https://docs.google.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* =========================================================================
+   DESIGN TOKENS
+   ========================================================================= */
+:root {
+  /* Colors — clinical, calm, authoritative */
+  --ink: #0B1F3A;
+  --ink-soft: #1F3A5F;
+  --paper: #FAF7F0;
+  --paper-warm: #F4EFE3;
+  --rule: #D8CFBE;
+  --rule-soft: #E8E1D2;
+  --text: #16202D;
+  --text-soft: #4A5568;
+  --text-muted: #6B7280;
+
+  /* Kaiser Permanente brand */
+  --kp-blue: #0079B8;
+  --kp-blue-soft: #3A95C6;
+  --kp-blue-pale: #E4F0F8;
+  --kp-blue-dark: #00547D;
+
+  /* Risk semantic colors — muted, not alarmist */
+  --high: #8B1E3F;
+  --high-bg: #F5E6EA;
+  --high-soft: #B85673;
+  --moderate: #B8651F;
+  --moderate-bg: #F7EBD9;
+  --moderate-soft: #D08A4A;
+  --standard: #2D5F3F;
+  --standard-bg: #E2EDE4;
+  --standard-soft: #5A8770;
+
+  /* Accent */
+  --accent: #A8501C;
+  --accent-soft: #C77A4A;
+
+  /* Type scale */
+  --font-display: 'Fraunces', 'Iowan Old Style', Georgia, serif;
+  --font-body: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'IBM Plex Mono', 'SF Mono', Consolas, monospace;
+
+  /* Spacing scale */
+  --s-1: 0.25rem;
+  --s-2: 0.5rem;
+  --s-3: 0.75rem;
+  --s-4: 1rem;
+  --s-5: 1.5rem;
+  --s-6: 2rem;
+  --s-7: 3rem;
+  --s-8: 4rem;
+
+  /* Layout */
+  --max-w: 64rem;
+  --max-w-narrow: 44rem;
+  --radius: 4px;
+  --radius-lg: 8px;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px rgba(11, 31, 58, 0.06);
+  --shadow: 0 4px 12px rgba(11, 31, 58, 0.08);
+  --shadow-lg: 0 12px 40px rgba(11, 31, 58, 0.12);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+body {
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--text);
+  background: var(--paper);
+  background-image:
+    radial-gradient(circle at 100% 0%, rgba(168, 80, 28, 0.04) 0%, transparent 50%),
+    radial-gradient(circle at 0% 100%, rgba(11, 31, 58, 0.03) 0%, transparent 50%);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* =========================================================================
+   TYPOGRAPHY
+   ========================================================================= */
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+}
+
+h1 { font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 600; }
+h2 { font-size: clamp(1.375rem, 3vw, 1.75rem); }
+h3 { font-size: 1.25rem; }
+h4 { font-size: 1.05rem; font-weight: 600; }
+
+p { margin-bottom: var(--s-4); }
+p:last-child { margin-bottom: 0; }
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-weight: 500;
+  margin-bottom: var(--s-3);
+}
+
+.lead { font-size: 1.1rem; color: var(--text-soft); line-height: 1.65; }
+.small { font-size: 0.875rem; }
+.tiny { font-size: 0.75rem; }
+.muted { color: var(--text-muted); }
+.mono { font-family: var(--font-mono); }
+
+/* =========================================================================
+   LAYOUT
+   ========================================================================= */
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.shell {
+  flex: 1;
+  width: 100%;
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: var(--s-5) var(--s-4) var(--s-7);
+}
+
+@media (min-width: 768px) {
+  .shell { padding: var(--s-6) var(--s-6) var(--s-8); }
+}
+
+/* =========================================================================
+   HEADER — white background, KP-blue accent, logo in original brand colors
+   ========================================================================= */
+.masthead {
+  background: #FFFFFF;
+  color: var(--ink);
+  padding: var(--s-4) var(--s-4);
+  border-bottom: 4px solid var(--kp-blue);
+  box-shadow: 0 1px 0 rgba(11, 31, 58, 0.04), 0 8px 24px rgba(11, 31, 58, 0.04);
+  position: relative;
+}
+
+.masthead::before {
+  /* Subtle KP-blue top stripe for additional brand presence */
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--kp-blue) 0%, var(--kp-blue-soft) 100%);
+}
+
+.masthead-inner {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-4);
+  flex-wrap: wrap;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: var(--s-4);
+}
+
+.brand-mark {
+  width: 42px;
+  height: 42px;
+  border: 2px solid var(--kp-blue);
+  color: var(--kp-blue);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.15rem;
+  flex-shrink: 0;
+}
+
+.brand-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.brand-title {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: -0.005em;
+  color: var(--ink);
+}
+
+.brand-subtitle {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.masthead-meta {
+  display: flex;
+  gap: var(--s-3);
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-soft);
+}
+
+.masthead-meta span { white-space: nowrap; }
+
+.masthead-meta .privacy-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px;
+  background: var(--kp-blue-pale);
+  color: var(--kp-blue);
+  border-radius: 100px;
+  font-weight: 500;
+}
+
+@media (max-width: 640px) {
+  .masthead-meta { font-size: 0.65rem; gap: var(--s-2); }
+  .brand-title { font-size: 0.9rem; }
+  .brand-mark { width: 36px; height: 36px; font-size: 1rem; }
+  .brand { gap: var(--s-3); }
+}
+
+/* =========================================================================
+   PROGRESS BAR
+   ========================================================================= */
+.progress-wrap {
+  background: var(--paper-warm);
+  border-bottom: 1px solid var(--rule);
+  padding: var(--s-3) var(--s-4);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  backdrop-filter: blur(8px);
+  background: rgba(244, 239, 227, 0.92);
+}
+
+.progress-inner {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  justify-content: space-between;
+}
+
+.steps {
+  display: flex;
+  gap: var(--s-2);
+  align-items: center;
+  flex: 1;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.steps::-webkit-scrollbar { display: none; }
+
+.step {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  white-space: nowrap;
+  /* button reset */
+  background: none;
+  border: none;
+  padding: 4px 2px;
+  font-weight: inherit;
+  cursor: default;
+  transition: color 0.15s;
+  border-radius: 4px;
+}
+
+.step-num {
+  width: 22px;
+  height: 22px;
+  border: 1.5px solid var(--rule);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  background: var(--paper);
+  transition: transform 0.15s, box-shadow 0.15s, background 0.15s, border-color 0.15s;
+}
+
+.step.active { color: var(--ink); }
+.step.active .step-num {
+  border-color: var(--ink);
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.step.complete .step-num {
+  border-color: var(--standard);
+  background: var(--standard);
+  color: var(--paper);
+}
+
+/* Clickable steps — completed AND visited steps are clickable */
+.step.complete, .step.visited { cursor: pointer; }
+
+.step.complete:hover, .step.visited:hover { color: var(--standard); }
+.step.complete:hover .step-num,
+.step.visited:hover .step-num {
+  transform: scale(1.12);
+  box-shadow: 0 0 0 4px var(--standard-bg);
+}
+.step.complete:active .step-num,
+.step.visited:active .step-num { transform: scale(1.05); }
+
+/* Visited but ahead of current position — outlined green, indicating "already filled in, click to revisit" */
+.step.visited { color: var(--standard); }
+.step.visited .step-num {
+  border-color: var(--standard);
+  background: var(--standard-bg);
+  color: var(--standard);
+}
+
+/* Keyboard focus */
+.step:focus { outline: none; }
+.step.complete:focus-visible,
+.step.visited:focus-visible {
+  outline: 2px solid var(--kp-blue);
+  outline-offset: 3px;
+}
+
+.step-sep {
+  width: 16px;
+  height: 1px;
+  background: var(--rule);
+}
+
+.live-risk {
+  display: none;
+  align-items: center;
+  gap: var(--s-2);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: var(--s-2) var(--s-3);
+  border-radius: 100px;
+  border: 1.5px solid;
+  background: var(--paper);
+  white-space: nowrap;
+}
+
+.live-risk.show { display: flex; }
+.live-risk.r-standard { color: var(--standard); border-color: var(--standard-soft); background: var(--standard-bg); }
+.live-risk.r-moderate { color: var(--moderate); border-color: var(--moderate-soft); background: var(--moderate-bg); }
+.live-risk.r-high { color: var(--high); border-color: var(--high-soft); background: var(--high-bg); }
+
+.live-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+@media (max-width: 640px) {
+  .step span:not(.step-num) { display: none; }
+  .progress-inner { gap: var(--s-2); }
+}
+
+/* =========================================================================
+   SCREENS
+   ========================================================================= */
+.screen { display: none; animation: fadeIn 0.4s ease-out; }
+.screen.active { display: block; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* =========================================================================
+   LANDING PAGE — BCRAT-style informational layout
+   ========================================================================= */
+.landing-hero {
+  background: linear-gradient(135deg, #FFFFFF 0%, var(--kp-blue-pale) 100%);
+  border-left: 4px solid var(--kp-blue);
+  padding: var(--s-6);
+}
+
+.landing-hero h1 {
+  font-size: clamp(1.875rem, 4.5vw, 2.75rem);
+  color: var(--ink);
+}
+
+.landing-hero .lead {
+  color: var(--text);
+  font-size: clamp(1rem, 2.2vw, 1.15rem);
+}
+
+.cta-card {
+  background: linear-gradient(135deg, var(--kp-blue) 0%, var(--kp-blue-dark) 100%);
+  color: var(--paper);
+  border-radius: var(--radius-lg);
+  padding: var(--s-6);
+  margin-bottom: var(--s-5);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0, 121, 184, 0.25);
+}
+
+.cta-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--paper) 0%, rgba(250, 247, 240, 0.4) 100%);
+  opacity: 0.5;
+}
+
+.cta-ack {
+  display: flex;
+  gap: var(--s-3);
+  align-items: flex-start;
+  cursor: pointer;
+  margin: 0 auto var(--s-5);
+  max-width: 44rem;
+  text-align: left;
+  background: rgba(255, 255, 255, 0.06);
+  padding: var(--s-4);
+  border-radius: var(--radius);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.cta-ack:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+.cta-ack input[type="checkbox"] {
+  width: 22px;
+  height: 22px;
+  margin-top: 1px;
+  flex-shrink: 0;
+  accent-color: var(--kp-blue);
+  cursor: pointer;
+}
+
+.cta-ack span {
+  flex: 1;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: rgba(250, 247, 240, 0.95);
+}
+
+.cta-ack strong {
+  color: var(--paper);
+}
+
+.cta-card h2 {
+  color: var(--paper);
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 3.5vw, 2rem);
+  margin-bottom: var(--s-3);
+}
+
+.cta-card p {
+  color: rgba(250, 247, 240, 0.85);
+  max-width: 36rem;
+  margin: 0 auto var(--s-5);
+  line-height: 1.65;
+}
+
+.btn-large {
+  font-size: 1.05rem;
+  font-weight: 600;
+  padding: var(--s-4) var(--s-7);
+  min-height: 56px;
+  letter-spacing: 0.02em;
+}
+
+.btn-cta {
+  background: var(--paper);
+  color: var(--kp-blue-dark);
+  border-color: var(--paper);
+}
+
+.btn-cta:hover:not(:disabled) {
+  background: #FFFFFF;
+  border-color: #FFFFFF;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  color: var(--kp-blue-dark);
+}
+
+.btn-cta:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  background: rgba(255, 255, 255, 0.18);
+  border-color: rgba(255, 255, 255, 0.25);
+  color: rgba(250, 247, 240, 0.65);
+}
+
+.resource-list {
+  list-style: none;
+  padding: 0;
+  margin: var(--s-3) 0 0;
+}
+
+.resource-list li {
+  padding: var(--s-3) 0;
+  border-bottom: 1px solid var(--rule-soft);
+}
+
+.resource-list li:last-child { border-bottom: none; }
+
+.resource-list a {
+  color: var(--kp-blue);
+  text-decoration: none;
+  font-weight: 500;
+  line-height: 1.5;
+  display: inline-block;
+}
+
+.resource-list a:hover {
+  color: #005688;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.limitations-list {
+  margin: var(--s-3) 0 var(--s-4) 0;
+  padding-left: var(--s-5);
+}
+
+.limitations-list li {
+  padding: var(--s-2) 0;
+  line-height: 1.6;
+  color: var(--text);
+}
+
+.landing-footer-info {
+  text-align: center;
+  padding: var(--s-5) var(--s-4);
+  margin-top: var(--s-3);
+}
+
+.landing-footer-info p {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+}
+
+/* =========================================================================
+   CARDS & SECTIONS
+   ========================================================================= */
+.card {
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-lg);
+  padding: var(--s-5);
+  margin-bottom: var(--s-5);
+  box-shadow: var(--shadow-sm);
+}
+
+@media (min-width: 768px) {
+  .card { padding: var(--s-6); }
+}
+
+.card-titled {
+  position: relative;
+}
+
+.section-head {
+  margin-bottom: var(--s-5);
+  padding-bottom: var(--s-4);
+  border-bottom: 1px solid var(--rule-soft);
+}
+
+.section-head h2 { margin-bottom: var(--s-2); }
+.section-head p { color: var(--text-soft); margin-bottom: 0; }
+
+/* =========================================================================
+   FORMS
+   ========================================================================= */
+.field-group {
+  margin-bottom: var(--s-5);
+}
+
+.field-group:last-child { margin-bottom: 0; }
+
+.field-label {
+  display: block;
+  font-weight: 500;
+  color: var(--ink);
+  margin-bottom: var(--s-3);
+  font-size: 0.95rem;
+}
+
+.field-help {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-top: var(--s-1);
+  margin-bottom: var(--s-3);
+  line-height: 1.5;
+}
+
+select, input[type="text"], input[type="date"], input[type="number"] {
+  width: 100%;
+  padding: var(--s-3) var(--s-4);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  color: var(--text);
+  background: var(--paper);
+  border: 1.5px solid var(--rule);
+  border-radius: var(--radius);
+  transition: border-color 0.15s, box-shadow 0.15s;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+select {
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3e%3cpath fill='none' stroke='%230B1F3A' stroke-width='1.5' d='M1 1l5 5 5-5'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right var(--s-4) center;
+  padding-right: var(--s-7);
+}
+
+select:focus, input:focus {
+  outline: none;
+  border-color: var(--ink);
+  box-shadow: 0 0 0 3px rgba(11, 31, 58, 0.1);
+}
+
+/* Checkbox grid */
+.check-grid {
+  display: grid;
+  gap: var(--s-2);
+}
+
+@media (min-width: 640px) {
+  .check-grid.cols-2 { grid-template-columns: 1fr 1fr; }
+}
+
+.check-item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--s-3);
+  padding: var(--s-3) var(--s-4);
+  border: 1.5px solid var(--rule);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: all 0.15s;
+  background: var(--paper);
+  position: relative;
+}
+
+.check-item:hover {
+  border-color: var(--ink-soft);
+  background: var(--paper-warm);
+}
+
+.check-item input[type="checkbox"],
+.check-item input[type="radio"] {
+  width: 18px;
+  height: 18px;
+  margin: 2px 0 0 0;
+  accent-color: var(--ink);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.check-item.selected {
+  background: var(--paper-warm);
+  border-color: var(--ink);
+}
+
+.check-item.risk-high.selected { border-color: var(--high); background: var(--high-bg); }
+.check-item.risk-moderate.selected { border-color: var(--moderate); background: var(--moderate-bg); }
+.check-item.risk-low.selected { border-color: var(--standard); background: var(--standard-bg); }
+
+.check-label {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-1);
+}
+
+.check-name {
+  font-weight: 500;
+  font-size: 0.95rem;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  flex-wrap: wrap;
+}
+
+.check-name .risk-badge {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-weight: 500;
+}
+
+.risk-badge.high { background: var(--high-bg); color: var(--high); }
+.risk-badge.moderate { background: var(--moderate-bg); color: var(--moderate); }
+.risk-badge.low { background: var(--standard-bg); color: var(--standard); }
+.risk-badge.neutral { background: var(--paper-warm); color: var(--text-soft); border: 1px solid var(--rule); }
+
+/* "Standard risk — good outcome" pill — for eligibility options that mean no extra screening needed */
+.risk-badge.standard-ok {
+  background: var(--standard);
+  color: var(--paper);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px;
+  font-weight: 500;
+}
+.risk-badge.standard-ok .ok-tick {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  background: var(--paper);
+  color: var(--standard);
+  border-radius: 50%;
+  font-size: 0.6rem;
+  font-weight: 700;
+}
+
+/* Always-tinted green for "good outcome" options on the eligibility screen */
+.check-item.good-option {
+  border-color: var(--standard-soft);
+  background: linear-gradient(180deg, var(--standard-bg) 0%, var(--paper) 100%);
+}
+.check-item.good-option:hover {
+  border-color: var(--standard);
+  background: var(--standard-bg);
+}
+.check-item.good-option.selected {
+  border-color: var(--standard);
+  background: var(--standard-bg);
+  box-shadow: 0 0 0 3px rgba(45, 95, 63, 0.08);
+}
+
+/* MSA status items (negative / not done / other) - visually distinct from specific antibodies */
+.check-item.msa-status-item {
+  border-style: dashed;
+  background: rgba(244, 239, 227, 0.5);
+}
+.check-item.msa-status-item.selected {
+  border-style: solid;
+  border-color: var(--kp-blue);
+  background: var(--kp-blue-pale);
+}
+
+/* Visible subtitle on feature items (not just tooltip) */
+.feature-subtitle {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--moderate-bg);
+  color: var(--moderate);
+  font-size: 0.8rem;
+  padding: 4px 10px;
+  border-radius: 3px;
+  font-weight: 500;
+  border-left: 3px solid var(--moderate);
+  margin-top: 4px;
+  width: fit-content;
+}
+
+/* Neutral risk-class outline for items (unknown subtype, MSA status flags) */
+.check-item.risk-neutral.selected {
+  background: var(--paper-warm);
+  border-color: var(--kp-blue);
+}
+
+.check-detail {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+/* Info tooltip */
+.info-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--rule);
+  color: var(--text-soft);
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 600;
+  cursor: help;
+  flex-shrink: 0;
+  border: none;
+  font-style: italic;
+  position: relative;
+}
+
+.info-trigger:hover { background: var(--ink); color: var(--paper); }
+
+.info-popover {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: 260px;
+  max-width: 80vw;
+  background: var(--ink);
+  color: var(--paper);
+  padding: var(--s-3) var(--s-4);
+  border-radius: var(--radius);
+  font-family: var(--font-body);
+  font-style: normal;
+  font-size: 0.8rem;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+  line-height: 1.5;
+  z-index: 100;
+  box-shadow: var(--shadow-lg);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s;
+  text-align: left;
+}
+
+.info-popover::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-top-color: var(--ink);
+}
+
+.info-trigger:hover .info-popover,
+.info-trigger:focus .info-popover {
+  opacity: 1;
+}
+
+/* =========================================================================
+   BUTTONS
+   ========================================================================= */
+.btn-row {
+  display: flex;
+  gap: var(--s-3);
+  margin-top: var(--s-6);
+  flex-wrap: wrap;
+}
+
+.btn-row.right { justify-content: flex-end; }
+.btn-row.split { justify-content: space-between; }
+
+.btn {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 500;
+  padding: var(--s-3) var(--s-5);
+  border-radius: var(--radius);
+  border: 1.5px solid transparent;
+  cursor: pointer;
+  transition: all 0.15s;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  text-decoration: none;
+  min-height: 44px;
+  letter-spacing: 0.01em;
+}
+
+.btn-primary {
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: var(--ink-soft);
+  border-color: var(--ink-soft);
+}
+
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-secondary {
+  background: var(--paper);
+  color: var(--ink);
+  border-color: var(--rule);
+}
+
+.btn-secondary:hover {
+  border-color: var(--ink);
+  background: var(--paper-warm);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text-soft);
+  border-color: transparent;
+  padding: var(--s-3) var(--s-3);
+}
+
+.btn-ghost:hover {
+  color: var(--ink);
+  background: var(--paper-warm);
+}
+
+.btn-arrow::after {
+  content: '→';
+  margin-left: var(--s-1);
+}
+
+.btn-back::before {
+  content: '←';
+  margin-right: var(--s-1);
+}
+
+/* =========================================================================
+   DISCLAIMER PANELS
+   ========================================================================= */
+.disclaimer-panel {
+  background: var(--paper-warm);
+  border: 1px solid var(--rule);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--radius);
+  padding: var(--s-4) var(--s-5);
+  margin-bottom: var(--s-4);
+}
+
+.disclaimer-panel h4 {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  margin-bottom: var(--s-2);
+  font-size: 0.95rem;
+}
+
+.disclaimer-panel .icon {
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+.disclaimer-panel p {
+  font-size: 0.9rem;
+  color: var(--text-soft);
+  line-height: 1.6;
+  margin-bottom: 0;
+}
+
+.disclaimer-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.disclaimer-list li {
+  display: flex;
+  gap: var(--s-3);
+  padding: var(--s-3) 0;
+  border-bottom: 1px solid var(--rule-soft);
+  align-items: flex-start;
+}
+
+.disclaimer-list li:last-child { border-bottom: none; }
+
+.disclaimer-list .icon {
+  flex-shrink: 0;
+  width: 24px;
+  font-size: 1rem;
+  margin-top: 2px;
+}
+
+.disclaimer-list .text {
+  flex: 1;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--text-soft);
+}
+
+.disclaimer-list strong { color: var(--ink); font-weight: 600; }
+
+/* Privacy panel — special emphasis */
+.privacy-panel {
+  background: linear-gradient(135deg, var(--standard-bg) 0%, rgba(226, 237, 228, 0.5) 100%);
+  border: 1.5px solid var(--standard-soft);
+  border-radius: var(--radius-lg);
+  padding: var(--s-5);
+  margin-bottom: var(--s-5);
+  position: relative;
+}
+
+.privacy-panel h4 {
+  color: var(--standard);
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+}
+
+.privacy-panel .lock-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: var(--standard);
+  color: var(--paper);
+  border-radius: 50%;
+  font-size: 1rem;
+}
+
+/* Acknowledgment box */
+.ack-box {
+  background: var(--ink);
+  color: var(--paper);
+  border-radius: var(--radius-lg);
+  padding: var(--s-5);
+  margin-top: var(--s-5);
+}
+
+.ack-box label {
+  display: flex;
+  gap: var(--s-3);
+  align-items: flex-start;
+  cursor: pointer;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.ack-box input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  margin-top: 2px;
+  flex-shrink: 0;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
+/* =========================================================================
+   RESULT PAGE
+   ========================================================================= */
+.result-hero {
+  border-radius: var(--radius-lg);
+  padding: var(--s-6);
+  margin-bottom: var(--s-5);
+  position: relative;
+  overflow: hidden;
+}
+
+.result-hero.r-standard {
+  background: var(--standard-bg);
+  border: 2px solid var(--standard-soft);
+  color: var(--standard);
+}
+.result-hero.r-moderate {
+  background: var(--moderate-bg);
+  border: 2px solid var(--moderate-soft);
+  color: var(--moderate);
+}
+.result-hero.r-high {
+  background: var(--high-bg);
+  border: 2px solid var(--high-soft);
+  color: var(--high);
+}
+
+.result-hero-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0.8;
+  margin-bottom: var(--s-3);
+}
+
+.result-hero h2 {
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 5vw, 2.5rem);
+  color: inherit;
+  margin-bottom: var(--s-3);
+  font-weight: 600;
+}
+
+.result-hero p {
+  color: inherit;
+  opacity: 0.9;
+  font-size: 1rem;
+  line-height: 1.65;
+  margin-bottom: 0;
+}
+
+/* Risk reasoning chips */
+.chip-cloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+  margin-top: var(--s-4);
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-1);
+  padding: var(--s-1) var(--s-3);
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid currentColor;
+  border-radius: 100px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+/* Recommendation cards */
+.rec-block {
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-lg);
+  padding: var(--s-5);
+  margin-bottom: var(--s-4);
+  background: var(--paper);
+}
+
+.rec-block h3 {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s-3);
+  margin-bottom: var(--s-3);
+  flex-wrap: wrap;
+}
+
+.rec-meta {
+  display: flex;
+  gap: var(--s-2);
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.rec-tag {
+  padding: 2px 6px;
+  border-radius: 3px;
+  background: var(--rule-soft);
+  color: var(--text-soft);
+  font-weight: 500;
+}
+
+.rec-tag.strong { background: var(--ink); color: var(--paper); }
+.rec-tag.cond { background: var(--paper-warm); color: var(--ink); border: 1px solid var(--rule); }
+.rec-tag.evidence-b { background: var(--standard-bg); color: var(--standard); }
+.rec-tag.evidence-c { background: var(--moderate-bg); color: var(--moderate); }
+.rec-tag.evidence-d { background: var(--high-bg); color: var(--high); }
+
+.order-list {
+  list-style: none;
+  padding: 0;
+  margin: var(--s-3) 0;
+}
+
+.order-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--s-3);
+  padding: var(--s-2) 0;
+  font-size: 0.95rem;
+}
+
+.order-list .check-mark {
+  display: inline-flex;
+  width: 18px;
+  height: 18px;
+  border: 1.5px solid var(--rule);
+  border-radius: 3px;
+  flex-shrink: 0;
+  margin-top: 3px;
+}
+
+.rec-note {
+  background: var(--paper-warm);
+  border-left: 3px solid var(--accent-soft);
+  padding: var(--s-3) var(--s-4);
+  margin-top: var(--s-3);
+  font-size: 0.88rem;
+  color: var(--text-soft);
+  line-height: 1.6;
+  border-radius: 0 var(--radius) var(--radius) 0;
+}
+
+.rec-note strong { color: var(--ink); }
+
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+  margin-top: var(--s-3);
+}
+
+.timeline-item {
+  display: flex;
+  gap: var(--s-4);
+  align-items: flex-start;
+}
+
+.timeline-date {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  background: var(--ink);
+  color: var(--paper);
+  padding: var(--s-1) var(--s-3);
+  border-radius: var(--radius);
+  white-space: nowrap;
+  flex-shrink: 0;
+  font-weight: 500;
+}
+
+.timeline-content {
+  flex: 1;
+  font-size: 0.95rem;
+}
+
+/* =========================================================================
+   EXPORT PANEL
+   ========================================================================= */
+.export-grid {
+  display: grid;
+  gap: var(--s-3);
+}
+
+@media (min-width: 640px) {
+  .export-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* Save callout — friendly "save before you leave" panel */
+.save-callout {
+  background: linear-gradient(135deg, var(--kp-blue-pale) 0%, var(--paper) 100%);
+  border: 1.5px solid var(--kp-blue-soft);
+  position: relative;
+}
+
+.save-callout-icon {
+  position: absolute;
+  top: var(--s-5);
+  right: var(--s-5);
+  font-size: 2rem;
+  opacity: 0.85;
+}
+
+.save-callout h2 {
+  color: var(--kp-blue-dark);
+  padding-right: var(--s-7);
+}
+
+/* Quick-action strip — small, unobtrusive save buttons near the result hero */
+.quick-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  margin: calc(-1 * var(--s-3)) 0 var(--s-5);
+  padding: var(--s-3) var(--s-4);
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  flex-wrap: wrap;
+}
+
+.quick-actions-label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.quick-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  padding: var(--s-2) var(--s-4);
+  background: var(--kp-blue);
+  color: var(--paper);
+  border: 1.5px solid var(--kp-blue);
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: all 0.15s;
+}
+
+.quick-action-btn:hover {
+  background: var(--kp-blue-dark);
+  border-color: var(--kp-blue-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 121, 184, 0.25);
+}
+
+.quick-action-btn:active {
+  transform: translateY(0);
+}
+
+.quick-action-icon {
+  font-size: 1rem;
+}
+
+.quick-actions-hint {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin-left: auto;
+  font-style: italic;
+}
+
+@media (max-width: 640px) {
+  .quick-actions { gap: var(--s-2); }
+  .quick-actions-hint { display: none; }
+  .quick-action-btn { padding: var(--s-2) var(--s-3); font-size: 0.8rem; }
+}
+
+.export-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--s-2);
+  padding: var(--s-4);
+  background: var(--paper);
+  border: 1.5px solid var(--rule);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: all 0.15s;
+  text-align: left;
+  font-family: var(--font-body);
+  width: 100%;
+  color: var(--text);
+}
+
+.export-btn:hover {
+  border-color: var(--ink);
+  background: var(--paper-warm);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow);
+}
+
+.export-icon {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  padding: 3px 8px;
+  background: var(--ink);
+  color: var(--paper);
+  border-radius: 3px;
+  font-weight: 500;
+}
+
+.export-title {
+  font-weight: 600;
+  color: var(--ink);
+  font-size: 0.95rem;
+}
+
+.export-desc {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+/* =========================================================================
+   EXIT / EXCLUSION SCREEN — clear "standard risk / no screening needed"
+   ========================================================================= */
+.exit-card {
+  background: var(--paper);
+  border: 2px solid var(--rule);
+  border-radius: var(--radius-lg);
+  padding: var(--s-6);
+  text-align: center;
+  max-width: var(--max-w-narrow);
+  margin: 0 auto;
+}
+
+.exit-card.r-standard {
+  border-color: var(--standard-soft);
+  background: linear-gradient(135deg, var(--standard-bg) 0%, var(--paper) 100%);
+}
+
+.exit-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  background: var(--standard);
+  color: var(--paper);
+  padding: var(--s-2) var(--s-4);
+  border-radius: 100px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 500;
+  margin-bottom: var(--s-5);
+  text-align: left;
+}
+
+.exit-badge-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  background: var(--paper);
+  color: var(--standard);
+  border-radius: 50%;
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+.exit-icon {
+  font-size: 2.5rem;
+  margin-bottom: var(--s-4);
+  display: block;
+}
+
+.exit-followup {
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  padding: var(--s-4);
+  text-align: left;
+}
+
+.exit-followup h4 {
+  margin-bottom: var(--s-2);
+  font-size: 0.95rem;
+}
+
+/* =========================================================================
+   FOOTER
+   ========================================================================= */
+.footer {
+  background: var(--ink);
+  color: rgba(250, 247, 240, 0.8);
+  padding: var(--s-5) var(--s-4);
+  font-size: 0.82rem;
+  border-top: 3px solid var(--accent);
+}
+
+.footer-inner {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-4);
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer a {
+  color: var(--paper);
+  text-decoration: underline;
+  text-decoration-color: var(--accent-soft);
+  text-underline-offset: 3px;
+}
+
+.footer a:hover { text-decoration-color: var(--paper); }
+
+.footer-meta {
+  display: flex;
+  gap: var(--s-4);
+  flex-wrap: wrap;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.8;
+}
+
+/* =========================================================================
+   MODAL
+   ========================================================================= */
+.modal-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(11, 31, 58, 0.65);
+  backdrop-filter: blur(4px);
+  z-index: 200;
+  padding: var(--s-4);
+  align-items: flex-start;
+  justify-content: center;
+  overflow-y: auto;
+}
+
+.modal-backdrop.show { display: flex; }
+
+.modal {
+  background: var(--paper);
+  border-radius: var(--radius-lg);
+  max-width: 42rem;
+  width: 100%;
+  margin: var(--s-5) auto;
+  padding: var(--s-6);
+  box-shadow: var(--shadow-lg);
+  max-height: calc(100vh - 4rem);
+  overflow-y: auto;
+}
+
+.modal h2 { margin-bottom: var(--s-4); }
+.modal h3 { margin-top: var(--s-4); margin-bottom: var(--s-2); font-size: 1rem; }
+
+.modal-close {
+  float: right;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: var(--text-soft);
+  padding: 0;
+  line-height: 1;
+}
+
+/* =========================================================================
+   PRINT STYLES — for PDF export via browser print
+   ========================================================================= */
+@media print {
+  body { background: white; color: black; font-size: 11pt; }
+  .progress-wrap, .footer, .btn-row, .export-grid,
+  .no-print, .info-trigger, .calc-summary { display: none !important; }
+  /* Keep masthead visible on print so the KP logo appears on the printed page */
+  .masthead { background: white !important; border-bottom: 2px solid #006BA6 !important; box-shadow: none !important; padding: 0.5rem 0 !important; }
+  .masthead::before { display: none !important; }
+  .masthead-meta { display: none !important; }
+  /* Logo block removed — masthead remains visible for context */
+  .shell { padding: 0.5rem 0; max-width: none; }
+  .screen { display: none !important; }
+  .screen.active { display: block !important; }
+  .card, .rec-block { border: 1px solid #999; box-shadow: none; page-break-inside: avoid; margin-bottom: 1rem; }
+  .result-hero { border: 2px solid #333; background: none !important; color: black !important; page-break-after: avoid; }
+  h1, h2, h3, h4 { color: black; }
+  .rec-tag { border: 1px solid #999; background: white !important; color: black !important; }
+  .chip { background: white !important; border: 1px solid #999; color: black !important; }
+  .timeline-date { background: #333 !important; color: white !important; }
+  .rec-note { background: #f5f5f5 !important; color: black !important; }
+  .check-mark { border-color: #333 !important; }
+  /* Print-only document title */
+  .screen.active::before {
+    content: 'IIM Cancer Screening Assessment — IMACS 2023 Guideline';
+    display: block;
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #333;
+  }
+}
+
+/* =========================================================================
+   UTILITY
+   ========================================================================= */
+.flex-between { display: flex; justify-content: space-between; align-items: center; gap: var(--s-3); flex-wrap: wrap; }
+.text-center { text-align: center; }
+.mb-2 { margin-bottom: var(--s-2); }
+.mb-3 { margin-bottom: var(--s-3); }
+.mb-4 { margin-bottom: var(--s-4); }
+.mb-5 { margin-bottom: var(--s-5); }
+.mt-3 { margin-top: var(--s-3); }
+.mt-4 { margin-top: var(--s-4); }
+.mt-5 { margin-top: var(--s-5); }
+
+/* Sticky live calculation panel for desktop */
+.calc-summary {
+  background: var(--ink);
+  color: var(--paper);
+  border-radius: var(--radius-lg);
+  padding: var(--s-4);
+  margin-bottom: var(--s-5);
+  display: flex;
+  gap: var(--s-4);
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.calc-counts {
+  display: flex;
+  gap: var(--s-4);
+  flex: 1;
+  flex-wrap: wrap;
+}
+
+.calc-count {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.calc-count-num {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.calc-count-label {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+
+.calc-count.high .calc-count-num { color: #F5A6B8; }
+.calc-count.moderate .calc-count-num { color: #F5C684; }
+.calc-count.low .calc-count-num { color: #A8D4B5; }
+
+.calc-verdict {
+  padding: var(--s-2) var(--s-4);
+  border-radius: 100px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.calc-verdict.r-standard { background: var(--standard); color: var(--paper); }
+.calc-verdict.r-moderate { background: var(--moderate); color: var(--paper); }
+.calc-verdict.r-high { background: var(--high); color: var(--paper); }
+</style>
+</head>
+<body>
+<div class="app">
+
+<!-- ============================================================
+     MASTHEAD
+     ============================================================ -->
+<header class="masthead">
+  <div class="masthead-inner">
+    <div class="brand">
+      <div class="brand-mark">M</div>
+      <div class="brand-text">
+        <div class="brand-title">IIM Cancer Screening</div>
+        <div class="brand-subtitle">IMACS 2023 Guideline · v1.0</div>
+      </div>
+    </div>
+    <div class="masthead-meta">
+      <span id="metaCountry">—</span>
+      <span class="privacy-pill">🔒 No data stored</span>
+    </div>
+  </div>
+</header>
+
+<!-- ============================================================
+     PROGRESS BAR
+     ============================================================ -->
+<nav class="progress-wrap no-print" id="progressBar" style="display:none;">
+  <div class="progress-inner">
+    <div class="steps" id="stepsList"></div>
+    <div class="live-risk" id="liveRisk">
+      <span class="live-dot"></span>
+      <span id="liveRiskLabel">Standard</span>
+    </div>
+  </div>
+</nav>
+
+<!-- ============================================================
+     MAIN
+     ============================================================ -->
+<main class="shell">
+
+<!-- SCREEN 0: Landing — single-page informational layout, CTA at top, ack-gated -->
+<section class="screen active" id="screen-landing" data-step="0">
+
+  <!-- Hero -->
+  <article class="card landing-hero" itemscope itemtype="https://schema.org/MedicalWebPage">
+    <div class="eyebrow">Clinical decision support · Adult-onset IIM</div>
+    <h1 itemprop="name">IIM Cancer Screening Assessment Tool</h1>
+    <p class="lead mt-3" itemprop="description">
+      Risk-stratified cancer screening calculator for adults with idiopathic inflammatory myopathy (IIM) — including <strong>dermatomyositis</strong>, <strong>polymyositis</strong>, <strong>immune-mediated necrotizing myopathy</strong>, and <strong>anti-synthetase syndrome</strong> — implementing the 2023 IMACS international guideline.
+    </p>
+    <p class="small muted mt-3">Takes about 2–3 minutes to complete. Free. No patient data stored.</p>
+  </article>
+
+  <!-- CTA: acknowledgement + Calculate Patient Risk button at TOP -->
+  <div class="cta-card">
+    <label class="cta-ack">
+      <input type="checkbox" id="ackBox">
+      <span><strong>I confirm</strong> I am a licensed healthcare professional, I have read the limitations and privacy notice below, and I understand this tool provides clinical decision support — not a substitute for clinical judgment.</span>
+    </label>
+    <button class="btn btn-cta btn-large btn-arrow" id="btnStartAssessment" disabled>
+      Calculate Patient Risk
+    </button>
+  </div>
+
+  <!-- About the Calculator -->
+  <div class="card">
+    <h2>About the Calculator</h2>
+    <p class="mt-3">This tool implements the 2023 International Guideline for IIM-Associated Cancer Screening, developed by the International Myositis Assessment and Clinical Studies Group (IMACS) and published in <em>Nature Reviews Rheumatology</em> (Oldroyd et al., 2023).</p>
+    <p>It uses IIM subtype, autoantibody profile, demographics, and clinical features — together with red-flag symptoms and geographic considerations — to generate a patient-specific risk category (standard, moderate, or high) and an individualised cancer-screening plan.</p>
+  </div>
+
+  <!-- Tool Limitations -->
+  <div class="card">
+    <h2>Tool Limitations</h2>
+    <p class="mt-3">Risk categories are <strong>relative to the IIM population</strong>, not the general population — standard-risk patients still likely carry elevated risk versus the general population. No source-guideline recommendation has GRADE A (high-quality) evidence; many rest on expert consensus. Negative screening does not exclude cancer.</p>
+
+    <p class="mt-4"><strong>This tool does not apply to:</strong></p>
+    <ul class="limitations-list">
+      <li><strong>Juvenile-onset IIM</strong> (under 18 at symptom onset) — additional cancer screening is not routinely required (standard risk equivalent)</li>
+      <li><strong>Verified inclusion body myositis (IBM)</strong> — additional cancer screening is not routinely required (standard risk equivalent)</li>
+      <li>Patients with currently active or recently diagnosed cancer</li>
+      <li>Patients more than 3 years from IIM symptom onset (recommendations less validated)</li>
+    </ul>
+
+    <p>All IIM patients should continue age- and sex-appropriate general-population cancer screening regardless of this tool's output.</p>
+  </div>
+
+  <!-- Privacy -->
+  <div class="privacy-panel">
+    <h4><span class="lock-icon">🔒</span> No patient data is stored</h4>
+    <p>This tool processes all information locally in your browser. <strong>No patient information is transmitted to, collected by, or stored on any external server.</strong> When you close or refresh this page, all entered data is permanently erased. Exported files (PDF, text, JSON) are generated in your browser and downloaded directly to your device.</p>
+    <p class="mt-3"><strong>Do not enter directly-identifying patient information</strong> (name, date of birth, medical record number) into this tool. Use anonymous case identifiers only if you wish to label an assessment.</p>
+    <p class="mt-3 small"><strong>What is remembered locally on your device:</strong> your selected country and that you have acknowledged these disclaimers. These can be cleared at any time by clearing your browser data. No clinical or patient information is included.</p>
+  </div>
+
+  <!-- Regulatory Notice -->
+  <div class="card">
+    <h2>Regulatory notice</h2>
+    <p class="mt-3">This tool has not been evaluated or approved by the FDA (US), MHRA (UK), EMA (EU), Health Canada, TGA (Australia/NZ), or any other regulatory authority as a medical device. It is provided for informational and clinical-decision-support use only by licensed healthcare professionals. Clinicians and institutions remain responsible for verifying compliance with applicable local laws.</p>
+    <p class="small mt-3">This tool is an independent implementation of the IMACS guideline and has not been formally endorsed by IMACS or the source-guideline authors.</p>
+  </div>
+
+  <!-- Resources -->
+  <div class="card">
+    <h2>Resources</h2>
+    <ul class="resource-list">
+      <li>
+        <a href="https://doi.org/10.1038/s41584-023-01045-w" target="_blank" rel="noopener">
+          Oldroyd AGS, Callen JP, Chinoy H, et al. International Guideline for IIM-Associated Cancer Screening (IMACS). <em>Nat Rev Rheumatol</em> 19, 805–817 (2023). ↗
+        </a>
+      </li>
+      <li>
+        <a href="https://www.imacs.org/" target="_blank" rel="noopener">
+          International Myositis Assessment &amp; Clinical Studies Group (IMACS) ↗
+        </a>
+      </li>
+      <li>
+        <a href="https://www.myositis.org/" target="_blank" rel="noopener">
+          The Myositis Association — patient and clinician resources ↗
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Version/footer info -->
+  <div class="landing-footer-info">
+    <p>IIM Cancer Screening Tool · Based on IMACS 2023 Guideline · Version 1.0</p>
+  </div>
+</section>
+
+<!-- Hidden state holders kept for JS compatibility (regional disclaimer text, ack-country label) -->
+<div style="display:none;" aria-hidden="true">
+  <div id="regionalDisclaimers"></div>
+  <span id="ackCountry"></span>
+</div>
+
+<!-- SCREEN 2: Eligibility — now Step 1 of 4 with optional region/specialty at top -->
+<section class="screen" id="screen-eligibility" data-step="2">
+  <div class="card">
+    <div class="eyebrow">Step 1 of 4 · Eligibility</div>
+    <h1>Patient eligibility</h1>
+    <p class="lead mt-3">Confirm the patient is within the scope of the IMACS guideline. Optionally select your region — this tailors screening references and flags geographic considerations.</p>
+
+    <!-- Region (optional) -->
+    <div class="section-head mt-5">
+      <h2>Region <span style="color:var(--text-muted);font-family:var(--font-body);font-weight:400;text-transform:none;letter-spacing:0;font-size:0.85rem;">(optional)</span></h2>
+    </div>
+
+    <div class="field-group">
+      <label class="field-label" for="countrySelect">Country or region of practice</label>
+      <select id="countrySelect">
+        <option value="">— Select your country (optional) —</option>
+      </select>
+      <div class="field-help" id="countryHelp">If left unselected, general international defaults will be used.</div>
+    </div>
+
+    <div class="field-group">
+      <label class="field-label" for="settingSelect">Your specialty <span class="muted">(optional)</span></label>
+      <select id="settingSelect">
+        <option value="">— Select specialty —</option>
+        <option value="rheumatologist">Rheumatologist</option>
+        <option value="neurologist">Neurologist / neuromuscular specialist</option>
+        <option value="dermatologist">Dermatologist</option>
+        <option value="other">Other</option>
+      </select>
+      <div class="field-help">Helps frame output language for your specialty. Not used in risk calculation.</div>
+    </div>
+
+    <!-- Eligibility questions -->
+    <div class="section-head mt-5">
+      <h2>Eligibility for the IMACS screening guideline</h2>
+    </div>
+
+    <div class="field-group">
+      <label class="field-label">Age at IIM symptom onset</label>
+      <div class="field-help">The guideline applies to adult-onset IIM only.</div>
+      <div class="check-grid">
+        <label class="check-item" data-elig="adult">
+          <input type="radio" name="onsetAge" value="adult">
+          <span class="check-label">
+            <span class="check-name">Adult-onset (≥18 years at symptom onset)</span>
+            <span class="check-detail">Continue with assessment.</span>
+          </span>
+        </label>
+        <label class="check-item risk-low good-option" data-elig="juvenile">
+          <input type="radio" name="onsetAge" value="juvenile">
+          <span class="check-label">
+            <span class="check-name">
+              Juvenile-onset (&lt;18 years at symptom onset)
+              <span class="risk-badge standard-ok"><span class="ok-tick">✓</span> Standard risk</span>
+            </span>
+            <span class="check-detail">No increased cancer risk vs general population — additional screening not routinely required (Rec 1).</span>
+          </span>
+        </label>
+      </div>
+    </div>
+
+    <div class="field-group">
+      <label class="field-label">Is the diagnosis verified inclusion body myositis (IBM)?</label>
+      <div class="field-help">IBM is a specific subtype of IIM with similar cancer risk to the general population, so routine cancer screening is not required (Rec 2).</div>
+      <div class="check-grid cols-2">
+        <label class="check-item">
+          <input type="radio" name="isIBM" value="no">
+          <span class="check-label">
+            <span class="check-name">No — patient has IIM, but it is <strong>not</strong> IBM</span>
+            <span class="check-detail">Continue with assessment.</span>
+          </span>
+        </label>
+        <label class="check-item risk-low good-option">
+          <input type="radio" name="isIBM" value="yes">
+          <span class="check-label">
+            <span class="check-name">
+              Yes — verified IBM
+              <span class="risk-badge standard-ok"><span class="ok-tick">✓</span> Standard risk</span>
+            </span>
+            <span class="check-detail">Cancer risk similar to general population — additional screening not routinely required (Rec 2).</span>
+          </span>
+        </label>
+      </div>
+    </div>
+
+    <div class="field-group">
+      <label class="field-label">Time since IIM symptom onset</label>
+      <div class="field-help">The guideline's recommendations are most validated within 3 years of symptom onset, when cancer risk is highest.</div>
+      <div class="check-grid cols-2">
+        <label class="check-item">
+          <input type="radio" name="timeSinceOnset" value="within3">
+          <span class="check-label">
+            <span class="check-name">Within 3 years of symptom onset</span>
+            <span class="check-detail">Tool applies.</span>
+          </span>
+        </label>
+        <label class="check-item">
+          <input type="radio" name="timeSinceOnset" value="beyond3">
+          <span class="check-label">
+            <span class="check-name">More than 3 years since symptom onset</span>
+            <span class="check-detail">Tool applies with caveats — recommendations less validated.</span>
+          </span>
+        </label>
+      </div>
+    </div>
+
+    <div class="field-group">
+      <label class="field-label" for="caseId">Anonymous case identifier <span class="muted">(optional)</span></label>
+      <input type="text" id="caseId" placeholder="e.g., Case-001 or initials" maxlength="40">
+      <div class="field-help">Used only as a label in your exported output. <strong>Do not enter directly-identifying information</strong> (full name, date of birth, MRN).</div>
+    </div>
+
+    <div class="btn-row split">
+      <button class="btn btn-secondary btn-back" onclick="goToScreen('landing')">Back</button>
+      <button class="btn btn-primary btn-arrow" id="btnToSubtype" disabled>Continue</button>
+    </div>
+  </div>
+</section>
+
+<!-- SCREEN 3: Subtype and Antibodies -->
+<section class="screen" id="screen-subtype" data-step="3">
+
+  <!-- Live calc summary -->
+  <div class="calc-summary" id="calcSummary">
+    <div class="calc-counts">
+      <div class="calc-count high">
+        <span class="calc-count-num" id="calcHighCount">0</span>
+        <span class="calc-count-label">High-risk factors</span>
+      </div>
+      <div class="calc-count moderate">
+        <span class="calc-count-num" id="calcModCount">0</span>
+        <span class="calc-count-label">Intermediate</span>
+      </div>
+      <div class="calc-count low">
+        <span class="calc-count-num" id="calcLowCount">0</span>
+        <span class="calc-count-label">Low-risk</span>
+      </div>
+    </div>
+    <div class="calc-verdict r-standard" id="calcVerdict">Standard risk</div>
+  </div>
+
+  <div class="card">
+    <div class="eyebrow">Step 2 of 4 · Subtype &amp; autoantibodies</div>
+    <h1>IIM subtype and autoantibody profile</h1>
+    <p class="lead mt-3">Select the patient's IIM subtype and all positive autoantibodies. Each item shows its risk classification per the IMACS guideline. Tap the <span class="info-trigger" style="position:relative;">i</span> for clinical context.</p>
+
+    <div class="section-head mt-5">
+      <h2>IIM subtype</h2>
+      <p>Select one. Subtypes are classified by their cancer risk relative to the wider IIM population.</p>
+    </div>
+
+    <div class="field-group">
+      <div class="check-grid cols-2" id="subtypeGrid"></div>
+    </div>
+
+    <div class="section-head mt-5">
+      <h2>Demographics &amp; age</h2>
+    </div>
+
+    <div class="field-group">
+      <label class="field-label">Sex</label>
+      <div class="check-grid cols-2">
+        <label class="check-item">
+          <input type="radio" name="sex" value="female">
+          <span class="check-label"><span class="check-name">Female</span></span>
+        </label>
+        <label class="check-item risk-moderate">
+          <input type="radio" name="sex" value="male">
+          <span class="check-label">
+            <span class="check-name">Male <span class="risk-badge moderate">Intermediate</span></span>
+            <span class="check-detail">Male sex is classified as an intermediate-risk factor in the IMACS guideline.</span>
+          </span>
+        </label>
+      </div>
+    </div>
+
+    <div class="field-group">
+      <label class="field-label">Age at IIM onset</label>
+      <div class="check-grid cols-2">
+        <label class="check-item">
+          <input type="radio" name="ageOnset" value="under40">
+          <span class="check-label"><span class="check-name">18–40 years</span></span>
+        </label>
+        <label class="check-item risk-high">
+          <input type="radio" name="ageOnset" value="over40">
+          <span class="check-label">
+            <span class="check-name">Over 40 years <span class="risk-badge high">High</span></span>
+            <span class="check-detail">Age &gt;40 at IIM onset is a high-risk factor (based on anti-TIF1γ studies).</span>
+          </span>
+        </label>
+      </div>
+    </div>
+
+    <div class="section-head mt-5">
+      <h2>Myositis-specific autoantibodies (MSA)</h2>
+      <p>Select all positive antibodies. Interpret with awareness of testing methodology and potential false positivity/negativity.</p>
+    </div>
+
+    <div class="field-group">
+      <div class="check-grid cols-2" id="msaGrid"></div>
+    </div>
+
+    <div class="section-head mt-5">
+      <h2>Myositis-associated autoantibodies (MAA)</h2>
+      <p>Often associated with overlap syndromes. All MAAs are classified as low-risk for cancer association.</p>
+    </div>
+
+    <div class="field-group">
+      <div class="check-grid cols-2" id="maaGrid"></div>
+    </div>
+
+    <div class="btn-row split">
+      <button class="btn btn-secondary btn-back" onclick="goToScreen('eligibility')">Back</button>
+      <button class="btn btn-primary btn-arrow" id="btnToFeatures">Continue to clinical features</button>
+    </div>
+  </div>
+</section>
+
+<!-- SCREEN 4: Clinical Features -->
+<section class="screen" id="screen-features" data-step="4">
+
+  <div class="calc-summary" id="calcSummary2">
+    <div class="calc-counts">
+      <div class="calc-count high">
+        <span class="calc-count-num" id="calcHighCount2">0</span>
+        <span class="calc-count-label">High-risk factors</span>
+      </div>
+      <div class="calc-count moderate">
+        <span class="calc-count-num" id="calcModCount2">0</span>
+        <span class="calc-count-label">Intermediate</span>
+      </div>
+      <div class="calc-count low">
+        <span class="calc-count-num" id="calcLowCount2">0</span>
+        <span class="calc-count-label">Low-risk</span>
+      </div>
+    </div>
+    <div class="calc-verdict r-standard" id="calcVerdict2">Standard risk</div>
+  </div>
+
+  <div class="card">
+    <div class="eyebrow">Step 3 of 4 · Clinical features</div>
+    <h1>Clinical features and red flags</h1>
+    <p class="lead mt-3">Select all that apply. These shape both risk stratification and special screening considerations.</p>
+
+    <div class="section-head mt-5">
+      <h2>Disease features</h2>
+    </div>
+
+    <div class="field-group">
+      <div class="check-grid" id="featuresGrid"></div>
+    </div>
+
+    <div class="section-head mt-5">
+      <h2>Red-flag symptoms (Recommendation 18)</h2>
+      <p>The presence of any red flag should prompt cancer screening consideration regardless of risk category.</p>
+    </div>
+
+    <div class="field-group">
+      <div class="check-grid cols-2" id="redFlagsGrid"></div>
+    </div>
+
+    <div class="btn-row split">
+      <button class="btn btn-secondary btn-back" onclick="goToScreen('subtype')">Back</button>
+      <button class="btn btn-primary btn-arrow" id="btnToResults">View screening plan</button>
+    </div>
+  </div>
+</section>
+
+<!-- SCREEN 5: Results -->
+<section class="screen" id="screen-results" data-step="5">
+  <div id="resultsContent"></div>
+</section>
+
+<!-- EXIT SCREEN — clear "Standard Risk / no additional screening" presentation -->
+<section class="screen" id="screen-exit">
+  <div class="exit-card r-standard">
+    <div class="exit-badge">
+      <span class="exit-badge-icon">✓</span>
+      <span>Standard risk — no additional cancer screening routinely required</span>
+    </div>
+    <span class="exit-icon" id="exitIcon">ℹ️</span>
+    <h2 id="exitTitle">Routine screening not required</h2>
+    <p class="lead mt-3" id="exitMessage"></p>
+    <div class="exit-followup mt-5">
+      <h4>Continue with general-population screening</h4>
+      <p class="small">All patients should continue age- and sex-appropriate general-population cancer screening (e.g., mammography, cervical screening, colorectal screening, low-dose CT for lung cancer where indicated).</p>
+    </div>
+    <div class="btn-row" style="justify-content:center;">
+      <button class="btn btn-secondary btn-back" onclick="restart()">Start a new assessment</button>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer class="footer no-print">
+  <div class="footer-inner">
+    <div>
+      <strong>Clinical decision support — not a substitute for clinical judgment.</strong>
+      Based on Oldroyd AGS et al., <em>Nat Rev Rheumatol</em> 19, 805–817 (2023).
+    </div>
+    <div class="footer-meta">
+      <a href="#" onclick="showModal('about'); return false;">About &amp; full disclaimers</a>
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLScoHYamqz3i2Nz2sKEBcG-5Cw12Famzbdf-XHPiAjsrUCW4Pg/viewform" target="_blank" rel="noopener">Suggest an improvement</a>
+      <a href="#" onclick="restart(); return false;">Reset</a>
+      <a href="#" onclick="changeCountry(); return false;">Change country</a>
+      <span>v1.0</span>
+    </div>
+  </div>
+</footer>
+
+</div><!-- /.app -->
+
+<!-- ============================================================
+     ABOUT MODAL
+     ============================================================ -->
+<div class="modal-backdrop" id="modalBackdrop">
+  <div class="modal">
+    <button class="modal-close" onclick="hideModal()">×</button>
+    <h2>About this tool</h2>
+
+    <h3>Source guideline</h3>
+    <p class="small">Oldroyd AGS, Callen JP, Chinoy H, Chung L, Fiorentino D, Gordon P, Machado PM, McHugh N, Selva-O'Callaghan A, Schmidt J, Tansley SL, Vleugels RA, Werth VP, IMACS Cancer Screening Expert Group &amp; Aggarwal R. International Guideline for Idiopathic Inflammatory Myopathy-Associated Cancer Screening: an International Myositis Assessment and Clinical Studies Group (IMACS) initiative. <em>Nat Rev Rheumatol</em> <strong>19</strong>, 805–817 (2023). DOI: 10.1038/s41584-023-01045-w</p>
+
+    <h3>Version</h3>
+    <p class="small">v1.0 — based on the IMACS guideline published November 2023. Revision is anticipated by the original Expert Group approximately every 5 years.</p>
+
+    <h3>Privacy &amp; data handling</h3>
+    <p class="small"><strong>No clinical or patient data is transmitted to or stored on any server.</strong> All risk calculations occur locally within your browser. Information you enter exists only in browser working memory and is permanently deleted when you close or refresh the page.</p>
+    <p class="small">Local preferences (your selected country and confirmation that you have read the disclaimers) are stored in your browser only, on your device, to avoid asking you the same questions on every visit. These can be cleared by clearing your browser data. No clinical or patient information is included in these local preferences.</p>
+    <p class="small">Exported files (PDF, text, JSON) are generated in your browser and downloaded directly to your device. They are not transmitted through any server.</p>
+    <p class="small">Because no patient data is stored or transmitted, this tool does not require HIPAA Business Associate Agreements (US), GDPR data processing agreements (EU/UK), or equivalent arrangements in other jurisdictions. However, clinicians remain responsible for handling any exported files in accordance with applicable privacy laws.</p>
+
+    <h3>Regulatory status</h3>
+    <p class="small">This tool has not been evaluated or approved by the FDA, MHRA, EMA, Health Canada, TGA, or any other regulatory authority as a medical device. It is intended for informational and educational use only.</p>
+
+    <h3>Endorsement</h3>
+    <p class="small">This tool is an independent implementation of the IMACS guideline. It has not been formally endorsed by IMACS, the International Myositis Society, the authors of the source guideline, or any regulatory body.</p>
+
+    <h3>EMR interoperability</h3>
+    <p class="small">Exported output is structured to facilitate transfer to electronic medical records (EMRs). JSON export uses HL7 FHIR-aligned concepts (Condition, Observation, RiskAssessment, ServiceRequest, CarePlan) with SNOMED CT and LOINC code mappings where applicable. The clinical-note text export is formatted for copy-paste into Epic, Cerner, EMIS, SystmOne, and similar systems.</p>
+
+    <h3>Feedback</h3>
+    <p class="small">Suggestions, bug reports, and clinical disagreements are welcome and reviewed. <a href="https://docs.google.com/forms/d/e/1FAIpQLScoHYamqz3i2Nz2sKEBcG-5Cw12Famzbdf-XHPiAjsrUCW4Pg/viewform" target="_blank" rel="noopener" style="color:var(--kp-blue);font-weight:500;">Submit feedback &rarr;</a></p>
+
+    <div class="btn-row right">
+      <button class="btn btn-primary" onclick="hideModal()">Close</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   APPLICATION STATE
+   ============================================================ */
+const STATE = {
+  country: null,
+  region: null,           // for grouping / regulatory mapping
+  setting: null,
+  acknowledged: false,
+  caseId: '',
+  onsetAge: null,         // adult | juvenile
+  isIBM: null,            // yes | no
+  timeSinceOnset: null,   // within3 | beyond3
+  subtype: null,
+  sex: null,
+  ageOnset: null,         // under40 | over40
+  msa: new Set(),
+  maa: new Set(),
+  features: new Set(),
+  redFlags: new Set(),
+  assessmentDate: new Date().toISOString().slice(0, 10),
+  toolVersion: '1.0',
+  guidelineVersion: 'IMACS 2023',
+  maxStepReached: -1
+};
+
+/* ============================================================
+   COUNTRY / REGION DATA
+   Tagged with regulatory body and NPC risk
+   ============================================================ */
+const COUNTRIES = [
+  // United States first (most common user)
+  { code: 'US', name: 'United States', region: 'US', npcRisk: false },
+
+  // Rest alphabetical
+  { code: 'DZ', name: 'Algeria', region: 'OTHER', npcRisk: true },
+  { code: 'AR', name: 'Argentina', region: 'OTHER', npcRisk: false },
+  { code: 'AU', name: 'Australia', region: 'AU', npcRisk: false },
+  { code: 'AT', name: 'Austria', region: 'EU', npcRisk: false },
+  { code: 'BD', name: 'Bangladesh', region: 'OTHER', npcRisk: false },
+  { code: 'BE', name: 'Belgium', region: 'EU', npcRisk: false },
+  { code: 'BR', name: 'Brazil', region: 'OTHER', npcRisk: false },
+  { code: 'CA', name: 'Canada', region: 'CA', npcRisk: false },
+  { code: 'CL', name: 'Chile', region: 'OTHER', npcRisk: false },
+  { code: 'CN', name: 'China (mainland)', region: 'OTHER', npcRisk: true },
+  { code: 'CO', name: 'Colombia', region: 'OTHER', npcRisk: false },
+  { code: 'CZ', name: 'Czech Republic', region: 'EU', npcRisk: false },
+  { code: 'DK', name: 'Denmark', region: 'EU', npcRisk: false },
+  { code: 'EG', name: 'Egypt', region: 'OTHER', npcRisk: false },
+  { code: 'FI', name: 'Finland', region: 'EU', npcRisk: false },
+  { code: 'FR', name: 'France', region: 'EU', npcRisk: false },
+  { code: 'DE', name: 'Germany', region: 'EU', npcRisk: false },
+  { code: 'GR', name: 'Greece', region: 'EU', npcRisk: false },
+  { code: 'HK', name: 'Hong Kong', region: 'OTHER', npcRisk: true },
+  { code: 'HU', name: 'Hungary', region: 'EU', npcRisk: false },
+  { code: 'IN', name: 'India', region: 'OTHER', npcRisk: false },
+  { code: 'ID', name: 'Indonesia', region: 'OTHER', npcRisk: true },
+  { code: 'IR', name: 'Iran', region: 'OTHER', npcRisk: false },
+  { code: 'IE', name: 'Ireland', region: 'EU', npcRisk: false },
+  { code: 'IL', name: 'Israel', region: 'OTHER', npcRisk: false },
+  { code: 'IT', name: 'Italy', region: 'EU', npcRisk: false },
+  { code: 'JP', name: 'Japan', region: 'OTHER', npcRisk: false },
+  { code: 'KE', name: 'Kenya', region: 'OTHER', npcRisk: false },
+  { code: 'MY', name: 'Malaysia', region: 'OTHER', npcRisk: true },
+  { code: 'MX', name: 'Mexico', region: 'OTHER', npcRisk: false },
+  { code: 'MA', name: 'Morocco', region: 'OTHER', npcRisk: true },
+  { code: 'NL', name: 'Netherlands', region: 'EU', npcRisk: false },
+  { code: 'NZ', name: 'New Zealand', region: 'AU', npcRisk: false },
+  { code: 'NG', name: 'Nigeria', region: 'OTHER', npcRisk: false },
+  { code: 'NO', name: 'Norway', region: 'EU', npcRisk: false },
+  { code: 'PK', name: 'Pakistan', region: 'OTHER', npcRisk: false },
+  { code: 'PH', name: 'Philippines', region: 'OTHER', npcRisk: true },
+  { code: 'PL', name: 'Poland', region: 'EU', npcRisk: false },
+  { code: 'PT', name: 'Portugal', region: 'EU', npcRisk: false },
+  { code: 'RU', name: 'Russia', region: 'OTHER', npcRisk: false },
+  { code: 'SA', name: 'Saudi Arabia', region: 'OTHER', npcRisk: false },
+  { code: 'SG', name: 'Singapore', region: 'OTHER', npcRisk: true },
+  { code: 'ZA', name: 'South Africa', region: 'OTHER', npcRisk: false },
+  { code: 'KR', name: 'South Korea', region: 'OTHER', npcRisk: false },
+  { code: 'ES', name: 'Spain', region: 'EU', npcRisk: false },
+  { code: 'SE', name: 'Sweden', region: 'EU', npcRisk: false },
+  { code: 'CH', name: 'Switzerland', region: 'EU', npcRisk: false },
+  { code: 'TW', name: 'Taiwan', region: 'OTHER', npcRisk: true },
+  { code: 'TH', name: 'Thailand', region: 'OTHER', npcRisk: true },
+  { code: 'TN', name: 'Tunisia', region: 'OTHER', npcRisk: true },
+  { code: 'TR', name: 'Turkey', region: 'OTHER', npcRisk: false },
+  { code: 'AE', name: 'United Arab Emirates', region: 'OTHER', npcRisk: false },
+  { code: 'GB', name: 'United Kingdom', region: 'UK', npcRisk: false },
+  { code: 'VN', name: 'Vietnam', region: 'OTHER', npcRisk: true },
+
+  // Catch-all at end
+  { code: 'OTHER', name: 'Other / Not listed', region: 'OTHER', npcRisk: false },
+];
+
+const REGIONAL_DISCLAIMERS = {
+  US: {
+    title: 'United States — Regulatory & privacy',
+    body: `<p><strong>FDA status:</strong> This tool has not been evaluated or cleared by the U.S. Food and Drug Administration. It is intended as clinical decision support consistent with the criteria of the 21st Century Cures Act (Section 3060), which exempt clinical decision support software from medical device regulation when the clinician can independently review the basis for the recommendation. All inputs and reasoning are displayed transparently.</p>
+    <p><strong>HIPAA:</strong> Because no patient data is transmitted to or stored on any server, no HIPAA Business Associate Agreement is required for use of this tool. Clinicians remain responsible for handling any exported output in accordance with HIPAA and their institution's privacy policies.</p>
+    <p><strong>General population screening reference:</strong> USPSTF guidance applies for mammography, cervical, colorectal, and lung cancer screening.</p>`
+  },
+  UK: {
+    title: 'United Kingdom — Regulatory & privacy',
+    body: `<p><strong>MHRA status:</strong> This tool has not been registered with the Medicines and Healthcare products Regulatory Agency (MHRA) as a UK medical device under the UK MDR 2002 (as amended). It is intended as clinical decision support only. If used to make clinical decisions in NHS practice, local clinical safety assurance (e.g., DCB0129/DCB0160) may apply at the organisational level.</p>
+    <p><strong>UK GDPR / Data Protection Act 2018:</strong> Because no patient data is transmitted to or stored on any server, no data processing agreement is required for use of this tool. Clinicians remain responsible for handling exported output in accordance with UK GDPR and trust information governance policies.</p>
+    <p><strong>General population screening reference:</strong> NHS Cancer Screening Programmes apply (breast, cervical, bowel; targeted lung health checks in eligible regions).</p>`
+  },
+  EU: {
+    title: 'European Union / EEA — Regulatory & privacy',
+    body: `<p><strong>EU MDR status:</strong> This tool does not bear a CE mark and has not been classified or registered as a medical device under Regulation (EU) 2017/745 (MDR). It is intended for educational and decision-support use only. Software intended to influence clinical decisions may, in some configurations, fall within EU MDR scope; users and institutions should verify applicability before integration into routine care.</p>
+    <p><strong>GDPR (Regulation (EU) 2016/679):</strong> Because no personal or patient data is transmitted to or stored on any server, no data processing agreement is required for use of this tool. Clinicians remain responsible for handling exported output in accordance with GDPR and national data protection law.</p>
+    <p><strong>General population screening reference:</strong> EU Council recommendations and national screening programmes apply (breast, cervical, colorectal; lung cancer screening rolling out in several member states).</p>`
+  },
+  CA: {
+    title: 'Canada — Regulatory & privacy',
+    body: `<p><strong>Health Canada status:</strong> This tool has not been licensed by Health Canada under the Medical Devices Regulations. It is intended for clinical decision support and educational use only.</p>
+    <p><strong>PIPEDA / provincial privacy law:</strong> Because no patient data is transmitted to or stored on any server, no data processing agreement is required. Clinicians remain responsible for handling exported output in accordance with PIPEDA and applicable provincial health information legislation (e.g., PHIPA in Ontario, HIA in Alberta).</p>
+    <p><strong>General population screening reference:</strong> Canadian Task Force on Preventive Health Care and provincial cancer screening programmes apply.</p>`
+  },
+  AU: {
+    title: 'Australia / New Zealand — Regulatory & privacy',
+    body: `<p><strong>TGA / Medsafe status:</strong> This tool has not been included in the Australian Register of Therapeutic Goods (ARTG) or registered with Medsafe (NZ). It is intended for clinical decision support and educational use only. Software-based medical devices may fall within TGA scope; users and institutions should verify applicability before clinical use.</p>
+    <p><strong>Privacy Act 1988 (AU) / Privacy Act 2020 (NZ):</strong> Because no patient data is transmitted to or stored on any server, no data processing agreement is required for use of this tool.</p>
+    <p><strong>General population screening reference:</strong> Australian National Cancer Screening Programmes (BreastScreen, National Cervical Screening Programme, National Bowel Cancer Screening Programme) and equivalent NZ programmes apply.</p>`
+  },
+  OTHER: {
+    title: 'Regulatory & privacy — General',
+    body: `<p><strong>Regulatory status:</strong> This tool has not been evaluated or approved by any national regulatory authority as a medical device. It is intended for clinical decision support and educational use only. Clinicians and institutions are responsible for verifying compliance with local medical device regulations before clinical deployment.</p>
+    <p><strong>Privacy:</strong> Because no patient data is transmitted to or stored on any server, no data processing agreement is required for use of this tool. Clinicians remain responsible for handling any exported output in accordance with applicable local data protection laws.</p>
+    <p><strong>General population screening:</strong> Patients should continue to participate in nationally or regionally available age- and sex-appropriate cancer screening programmes.</p>`
+  }
+};
+
+/* ============================================================
+   RISK FACTOR CATALOGUE
+   ============================================================ */
+const SUBTYPES = [
+  { id: 'DM', name: 'Dermatomyositis', risk: 'high',
+    info: 'Highest cancer risk among IIM subtypes (RR 2.21 vs other IIM in the IMACS meta-analysis).' },
+  { id: 'CADM', name: 'Clinically amyopathic dermatomyositis (CADM)', risk: 'intermediate',
+    info: 'Lower cancer risk than classical DM but evidence base is limited.' },
+  { id: 'PM', name: 'Polymyositis', risk: 'intermediate',
+    info: 'Diagnosis is increasingly reclassified to IMNM, IBM, or ASSD; included as intermediate by expert consensus.' },
+  { id: 'IMNM', name: 'Immune-mediated necrotizing myopathy (IMNM)', risk: 'intermediate',
+    info: 'Risk varies by autoantibody — distinguish anti-HMGCR+ (intermediate) from anti-SRP+ (low).' },
+  { id: 'ASSD', name: 'Anti-synthetase syndrome (ASSD)', risk: 'low',
+    info: 'Low cancer risk per meta-analysis and observational evidence.' },
+  { id: 'OVERLAP', name: 'Overlap IIM / CTD-associated myositis', risk: 'low',
+    info: 'Includes IIM overlapping with SLE, scleroderma, MCTD. Low cancer risk.' },
+  { id: 'UNKNOWN', name: 'Unknown / undetermined / not yet classified', risk: 'unknown',
+    info: 'Subtype not yet determined. The tool will continue based on other available risk factors. Subtype-based risk contribution cannot be assessed until subtype is confirmed.' }
+];
+
+const MSAS = [
+  // ---- DM-associated antibodies (clustered together) ----
+  { id: 'TIF1g', name: 'Anti-TIF1γ', risk: 'high',
+    info: 'Strongest single antibody predictor of cancer (RR 4.68 vs anti-TIF1γ-negative IIM). Highest risk if age >40 at onset. Most often DM-associated.' },
+  { id: 'NXP2', name: 'Anti-NXP2', risk: 'high',
+    info: 'Associated with increased cancer risk, though magnitude is lower than anti-TIF1γ. DM-associated. Expert consensus classifies as high-risk.' },
+  { id: 'MDA5', name: 'Anti-MDA5', risk: 'intermediate',
+    info: 'DM/CADM-associated. Strongly associated with rapidly progressive ILD. Cancer association non-significant in meta-analysis.' },
+  { id: 'Mi2', name: 'Anti-Mi2', risk: 'intermediate',
+    info: 'Classical DM-associated antibody. Non-significant cancer association in IMACS meta-analysis; classified as intermediate.' },
+  { id: 'SAE1', name: 'Anti-SAE1', risk: 'intermediate',
+    info: 'DM-associated antibody. Non-significant cancer association in IMACS meta-analysis; classified as intermediate.' },
+
+  // ---- Anti-synthetase antibodies (ASSD) ----
+  { id: 'Jo1', name: 'Anti-Jo1', risk: 'low',
+    info: 'Classical anti-synthetase antibody (ASSD). Low cancer risk.' },
+  { id: 'nonJo1', name: 'Non-Jo1 anti-synthetase antibodies (PL-7, PL-12, EJ, OJ, KS)', risk: 'low',
+    info: 'Other anti-synthetase antibodies (ASSD spectrum). Low cancer risk.' },
+
+  // ---- IMNM-associated antibodies ----
+  { id: 'HMGCR', name: 'Anti-HMGCR', risk: 'intermediate',
+    info: 'IMNM-associated. Cancer risk distinct from anti-SRP IMNM; intermediate risk per expert consensus.' },
+  { id: 'SRP', name: 'Anti-SRP', risk: 'low',
+    info: 'IMNM-associated. Anti-SRP+ IMNM carries low cancer risk; distinct from anti-HMGCR+ IMNM.' },
+
+  // ---- Status / catch-all options (end of list) ----
+  { id: 'MSA_OTHER', name: 'Other MSA positive (not listed)', risk: 'status', special: true,
+    info: 'Patient is positive for a myositis-specific autoantibody not in this list. Clinical interpretation depends on the specific antibody; does not automatically contribute to risk stratification.' },
+  { id: 'MSA_NEGATIVE', name: 'MSA: tested, all negative', risk: 'status', special: true,
+    info: 'Patient has been tested for myositis-specific autoantibodies and all came back negative. Does not contribute to risk count.' },
+  { id: 'MSA_NOT_DONE', name: 'MSA: testing not performed / pending', risk: 'status', special: true,
+    info: 'Autoantibody testing has not been completed. Risk stratification will rely on other available factors. Consider obtaining testing where feasible.' }
+];
+
+const MAAS = [
+  { id: 'PMScl', name: 'Anti-PM-Scl', risk: 'low' },
+  { id: 'Ku', name: 'Anti-Ku', risk: 'low' },
+  { id: 'RNP', name: 'Anti-RNP / anti-U1RNP', risk: 'low' },
+  { id: 'SSA', name: 'Anti-SSA / Ro', risk: 'low' },
+  { id: 'SSB', name: 'Anti-SSB / La', risk: 'low' }
+];
+
+const FEATURES = [
+  { id: 'persistent_activity',
+    name: 'Persistent high disease activity despite immunosuppression',
+    subtitle: '⚠️ Includes relapse of previously controlled disease',
+    risk: 'high',
+    info: 'Persistent activity (or relapse of previously controlled disease) is associated with increased cancer risk, particularly in anti-TIF1γ positive patients.' },
+  { id: 'dysphagia', name: 'Dysphagia (moderate to severe)', risk: 'high',
+    info: 'May represent a manifestation of high disease activity or local malignancy. Particularly concerning if treatment-refractory.' },
+  { id: 'cutaneous_necrosis', name: 'Cutaneous necrosis or ulceration', risk: 'high',
+    info: 'Associated with severe refractory dermatomyositis and increased cancer risk.' },
+  { id: 'raynaud', name: 'Raynaud phenomenon', risk: 'low',
+    info: 'Typically associated with overlap features / ASSD; low cancer risk.' },
+  { id: 'arthropathy', name: 'Inflammatory arthropathy', risk: 'low',
+    info: 'Common in ASSD and overlap syndromes; low cancer risk.' },
+  { id: 'ild', name: 'Interstitial lung disease (ILD)', risk: 'low',
+    info: 'Common in ASSD and anti-MDA5+ disease. Low cancer risk overall, though warrants monitoring on imaging.' }
+];
+
+const RED_FLAGS = [
+  { id: 'weight_loss', name: 'Unintentional weight loss', info: 'Unexplained loss >5% body weight over 6 months.' },
+  { id: 'family_history', name: 'Family history of cancer', info: 'First- or second-degree relative with malignancy, particularly at young age.' },
+  { id: 'smoking', name: 'Smoking history', info: 'Current or significant past tobacco use.' },
+  { id: 'fever', name: 'Unexplained fever', info: 'Fever not explained by infection or disease activity.' },
+  { id: 'night_sweats', name: 'Night sweats', info: 'Drenching night sweats without identified cause.' }
+];
+
+/* ============================================================
+   INITIALISATION
+   ============================================================ */
+function init() {
+  // Populate country dropdown
+  const sel = document.getElementById('countrySelect');
+  COUNTRIES.forEach(c => {
+    const o = document.createElement('option');
+    o.value = c.code;
+    o.textContent = c.name;
+    sel.appendChild(o);
+  });
+
+  // Restore preferences (country + ack) from localStorage if present
+  // These are NOT patient data — just UI preferences
+  try {
+    const savedCountry = localStorage.getItem('iim_country');
+    const savedAck = localStorage.getItem('iim_ack_version');
+    if (savedCountry) {
+      sel.value = savedCountry;
+      handleCountryChange();
+    }
+    if (savedAck === STATE.toolVersion && savedCountry) {
+      // User already acknowledged this version of the tool
+      // We still show the country select but they can skip ahead
+    }
+  } catch (e) { /* localStorage may be disabled — fine */ }
+
+  // Wire up country selection (now lives on the disclaimers screen)
+  sel.addEventListener('change', handleCountryChange);
+  document.getElementById('settingSelect').addEventListener('change', e => {
+    STATE.setting = e.target.value || null;
+  });
+
+  // Acknowledgment on landing — gates the "Calculate Patient Risk" button
+  document.getElementById('ackBox').addEventListener('change', e => {
+    STATE.acknowledged = e.target.checked;
+    document.getElementById('btnStartAssessment').disabled = !e.target.checked;
+  });
+
+  // "Calculate Patient Risk" button on landing — go directly to eligibility
+  document.getElementById('btnStartAssessment').addEventListener('click', () => {
+    if (!STATE.acknowledged) return;
+    try {
+      localStorage.setItem('iim_ack_version', STATE.toolVersion);
+    } catch (e) { /* localStorage may be disabled — fine */ }
+    goToScreen('eligibility');
+  });
+
+  // Eligibility
+  document.querySelectorAll('input[name="onsetAge"]').forEach(r => {
+    r.addEventListener('change', e => { STATE.onsetAge = e.target.value; checkEligibility(); });
+  });
+  document.querySelectorAll('input[name="isIBM"]').forEach(r => {
+    r.addEventListener('change', e => { STATE.isIBM = e.target.value; checkEligibility(); });
+  });
+  document.querySelectorAll('input[name="timeSinceOnset"]').forEach(r => {
+    r.addEventListener('change', e => { STATE.timeSinceOnset = e.target.value; checkEligibility(); });
+  });
+  document.getElementById('caseId').addEventListener('input', e => {
+    STATE.caseId = e.target.value.trim();
+  });
+  document.getElementById('btnToSubtype').addEventListener('click', () => {
+    // Check for exclusions
+    if (STATE.onsetAge === 'juvenile') {
+      showExit('juvenile');
+      return;
+    }
+    if (STATE.isIBM === 'yes') {
+      showExit('ibm');
+      return;
+    }
+    goToScreen('subtype');
+  });
+
+  // Build subtype grid
+  buildSubtypeGrid();
+  buildMSAGrid();
+  buildMAAGrid();
+  buildFeaturesGrid();
+  buildRedFlagsGrid();
+
+  // Sex / age radios
+  document.querySelectorAll('input[name="sex"]').forEach(r => {
+    r.addEventListener('change', e => { STATE.sex = e.target.value; updateLiveCalc(); });
+  });
+  document.querySelectorAll('input[name="ageOnset"]').forEach(r => {
+    r.addEventListener('change', e => { STATE.ageOnset = e.target.value; updateLiveCalc(); });
+  });
+
+  document.getElementById('btnToFeatures').addEventListener('click', () => goToScreen('features'));
+  document.getElementById('btnToResults').addEventListener('click', () => goToScreen('results'));
+
+  // Build step indicator
+  buildSteps();
+}
+
+/* ============================================================
+   COUNTRY / DISCLAIMER HANDLING
+   ============================================================ */
+function handleCountryChange() {
+  const sel = document.getElementById('countrySelect');
+  const code = sel.value;
+  const country = COUNTRIES.find(c => c.code === code);
+  if (!country) {
+    STATE.country = null;
+    STATE.region = null;
+    STATE.npcRisk = false;
+    document.getElementById('countryHelp').innerHTML = 'If left unselected, general international defaults will be used.';
+    document.getElementById('metaCountry').textContent = '—';
+    return;
+  }
+  STATE.country = country.name;
+  STATE.region = country.region;
+  STATE.npcRisk = country.npcRisk;
+  document.getElementById('metaCountry').textContent = country.name;
+
+  let help = `Screening references will be tailored to <strong>${country.name}</strong>.`;
+  if (country.npcRisk) {
+    help += ' This region has elevated nasopharyngeal carcinoma incidence — nasoendoscopy screening will be flagged in the output (Recommendation 17).';
+  }
+  document.getElementById('countryHelp').innerHTML = help;
+}
+
+// (Country is now optional; no gating function needed.)
+
+function renderRegionalDisclaimer() {
+  const container = document.getElementById('regionalDisclaimers');
+  const region = STATE.region || 'OTHER';
+  const d = REGIONAL_DISCLAIMERS[region];
+  if (!d) { container.innerHTML = ''; return; }
+  container.innerHTML = `
+    <div class="disclaimer-panel">
+      <h4><span class="icon">🌐</span> ${d.title}</h4>
+      ${d.body}
+    </div>`;
+}
+
+/* ============================================================
+   ELIGIBILITY
+   ============================================================ */
+function checkEligibility() {
+  const ready = STATE.onsetAge && STATE.isIBM && STATE.timeSinceOnset;
+  document.getElementById('btnToSubtype').disabled = !ready;
+  // Mark selected check items visually
+  document.querySelectorAll('#screen-eligibility .check-item').forEach(item => {
+    const input = item.querySelector('input');
+    item.classList.toggle('selected', input.checked);
+  });
+}
+
+function showExit(reason) {
+  const icon = document.getElementById('exitIcon');
+  const title = document.getElementById('exitTitle');
+  const message = document.getElementById('exitMessage');
+  if (reason === 'juvenile') {
+    icon.textContent = '👶';
+    title.textContent = 'Juvenile-onset IIM';
+    message.innerHTML = `Per <strong>IMACS Recommendation 1</strong>, additional cancer screening beyond age-appropriate general-population screening is <strong>not routinely required</strong> for patients with juvenile-onset IIM. Cancer risk in this group is not increased compared with the general population.<br><br>Clinicians should remain vigilant for features that may suggest underlying cancer: abnormal complete blood count, unexplained weight loss, fevers, splenomegaly, and lymphadenopathy.`;
+  } else if (reason === 'ibm') {
+    icon.textContent = '🔬';
+    title.textContent = 'Verified inclusion body myositis (IBM)';
+    message.innerHTML = `Per <strong>IMACS Recommendation 2</strong>, additional cancer screening beyond age-appropriate general-population screening is <strong>not routinely required</strong> for patients with verified IBM. Cancer risk is similar to the general population (standardised incidence rate ~1.0 in cohort studies).<br><br><strong>Note:</strong> Emerging evidence suggests a possible association between IBM and T-cell large granular lymphocytic leukaemia. Consider this in patients with persistent unexplained cytopenias or lymphocytosis.`;
+  }
+  goToScreen('exit');
+}
+
+/* ============================================================
+   GRID BUILDERS
+   ============================================================ */
+function buildSubtypeGrid() {
+  const g = document.getElementById('subtypeGrid');
+  g.innerHTML = '';
+  SUBTYPES.forEach(s => {
+    const label = document.createElement('label');
+    // Map risk → CSS class
+    const riskClass = s.risk === 'intermediate' ? 'moderate'
+                    : s.risk === 'unknown' ? 'neutral'
+                    : s.risk;
+    label.className = `check-item risk-${riskClass}`;
+    const badgeClass = riskClass === 'neutral' ? 'neutral' : riskClass;
+    const badgeLabel = s.risk === 'unknown' ? 'Unknown' : capitalise(s.risk);
+    label.innerHTML = `
+      <input type="radio" name="subtype" value="${s.id}">
+      <span class="check-label">
+        <span class="check-name">
+          ${s.name}
+          <span class="risk-badge ${badgeClass}">${badgeLabel}</span>
+          ${infoBtn(s.info)}
+        </span>
+      </span>`;
+    label.querySelector('input').addEventListener('change', e => {
+      STATE.subtype = s.id;
+      document.querySelectorAll('#subtypeGrid .check-item').forEach(it => it.classList.remove('selected'));
+      if (e.target.checked) label.classList.add('selected');
+      updateLiveCalc();
+    });
+    g.appendChild(label);
+  });
+}
+
+function buildMSAGrid() {
+  const g = document.getElementById('msaGrid');
+  g.innerHTML = '';
+  MSAS.forEach(a => {
+    const label = document.createElement('label');
+    // Map risk → CSS classes
+    let riskClass, badgeClass, badgeLabel;
+    if (a.risk === 'status') {
+      riskClass = 'neutral';
+      badgeClass = 'neutral';
+      badgeLabel = 'Status';
+    } else if (a.risk === 'intermediate') {
+      riskClass = badgeClass = 'moderate';
+      badgeLabel = 'Intermediate';
+    } else {
+      riskClass = badgeClass = a.risk;
+      badgeLabel = capitalise(a.risk);
+    }
+    label.className = `check-item risk-${riskClass}` + (a.special ? ' msa-status-item' : '');
+    label.innerHTML = `
+      <input type="checkbox" value="${a.id}">
+      <span class="check-label">
+        <span class="check-name">
+          ${a.name}
+          <span class="risk-badge ${badgeClass}">${badgeLabel}</span>
+          ${infoBtn(a.info)}
+        </span>
+      </span>`;
+    label.querySelector('input').addEventListener('change', e => {
+      // MSA_NEGATIVE and MSA_NOT_DONE are mutually exclusive with specific antibodies AND with each other
+      if (e.target.checked && (a.id === 'MSA_NEGATIVE' || a.id === 'MSA_NOT_DONE')) {
+        // Uncheck all other MSAs
+        document.querySelectorAll('#msaGrid input[type="checkbox"]').forEach(cb => {
+          if (cb !== e.target) {
+            cb.checked = false;
+            cb.closest('.check-item').classList.remove('selected');
+          }
+        });
+        STATE.msa.clear();
+      } else if (e.target.checked) {
+        // If any specific antibody / OTHER selected, unselect the negative/not-done flags
+        ['MSA_NEGATIVE', 'MSA_NOT_DONE'].forEach(id => {
+          const cb = document.querySelector(`#msaGrid input[value="${id}"]`);
+          if (cb && cb.checked) {
+            cb.checked = false;
+            cb.closest('.check-item').classList.remove('selected');
+            STATE.msa.delete(id);
+          }
+        });
+      }
+      if (e.target.checked) STATE.msa.add(a.id); else STATE.msa.delete(a.id);
+      label.classList.toggle('selected', e.target.checked);
+      updateLiveCalc();
+    });
+    g.appendChild(label);
+  });
+}
+
+function buildMAAGrid() {
+  const g = document.getElementById('maaGrid');
+  g.innerHTML = '';
+  MAAS.forEach(a => {
+    const label = document.createElement('label');
+    label.className = 'check-item risk-low';
+    label.innerHTML = `
+      <input type="checkbox" value="${a.id}">
+      <span class="check-label">
+        <span class="check-name">${a.name} <span class="risk-badge low">Low</span></span>
+      </span>`;
+    label.querySelector('input').addEventListener('change', e => {
+      if (e.target.checked) STATE.maa.add(a.id); else STATE.maa.delete(a.id);
+      label.classList.toggle('selected', e.target.checked);
+      updateLiveCalc();
+    });
+    g.appendChild(label);
+  });
+}
+
+function buildFeaturesGrid() {
+  const g = document.getElementById('featuresGrid');
+  g.innerHTML = '';
+  FEATURES.forEach(f => {
+    const label = document.createElement('label');
+    const riskClass = f.risk === 'intermediate' ? 'moderate' : f.risk;
+    label.className = `check-item risk-${riskClass}`;
+    const subtitleHtml = f.subtitle ? `<span class="feature-subtitle">${f.subtitle}</span>` : '';
+    label.innerHTML = `
+      <input type="checkbox" value="${f.id}">
+      <span class="check-label">
+        <span class="check-name">
+          ${f.name}
+          <span class="risk-badge ${riskClass === 'high' ? 'high' : riskClass === 'moderate' ? 'moderate' : 'low'}">${capitalise(f.risk)}</span>
+          ${infoBtn(f.info)}
+        </span>
+        ${subtitleHtml}
+      </span>`;
+    label.querySelector('input').addEventListener('change', e => {
+      if (e.target.checked) STATE.features.add(f.id); else STATE.features.delete(f.id);
+      label.classList.toggle('selected', e.target.checked);
+      updateLiveCalc();
+    });
+    g.appendChild(label);
+  });
+}
+
+function buildRedFlagsGrid() {
+  const g = document.getElementById('redFlagsGrid');
+  g.innerHTML = '';
+  RED_FLAGS.forEach(r => {
+    const label = document.createElement('label');
+    label.className = 'check-item';
+    label.innerHTML = `
+      <input type="checkbox" value="${r.id}">
+      <span class="check-label">
+        <span class="check-name">${r.name} ${infoBtn(r.info)}</span>
+      </span>`;
+    label.querySelector('input').addEventListener('change', e => {
+      if (e.target.checked) STATE.redFlags.add(r.id); else STATE.redFlags.delete(r.id);
+      label.classList.toggle('selected', e.target.checked);
+      updateLiveCalc();
+    });
+    g.appendChild(label);
+  });
+}
+
+function infoBtn(text) {
+  if (!text) return '';
+  const safe = text.replace(/"/g, '&quot;');
+  return `<button type="button" class="info-trigger" onclick="event.preventDefault(); event.stopPropagation();" tabindex="0">i<span class="info-popover">${safe}</span></button>`;
+}
+
+/* ============================================================
+   LIVE RISK CALCULATION
+   ============================================================ */
+function calcRisk() {
+  let high = 0, mod = 0, low = 0;
+  const reasons = { high: [], moderate: [], low: [] };
+  const notes = []; // informational notes that don't affect counts
+
+  // Subtype
+  const subtype = SUBTYPES.find(s => s.id === STATE.subtype);
+  if (subtype) {
+    if (subtype.risk === 'high') { high++; reasons.high.push(subtype.name); }
+    else if (subtype.risk === 'intermediate') { mod++; reasons.moderate.push(subtype.name); }
+    else if (subtype.risk === 'unknown') { notes.push('Subtype not determined — subtype-based risk contribution not assessed'); }
+    else { low++; reasons.low.push(subtype.name); }
+  }
+
+  // Sex
+  if (STATE.sex === 'male') { mod++; reasons.moderate.push('Male sex'); }
+
+  // Age
+  if (STATE.ageOnset === 'over40') { high++; reasons.high.push('Age >40 at onset'); }
+
+  // MSAs
+  STATE.msa.forEach(id => {
+    const a = MSAS.find(m => m.id === id);
+    if (!a) return;
+    // Status flags don't add to risk counts
+    if (a.risk === 'status') {
+      if (id === 'MSA_NEGATIVE') notes.push('MSA testing performed: all negative');
+      else if (id === 'MSA_NOT_DONE') notes.push('MSA testing not performed — risk based on other available factors');
+      else if (id === 'MSA_OTHER') notes.push('Other (unspecified) MSA positive — interpret in clinical context');
+      return;
+    }
+    if (a.risk === 'high') { high++; reasons.high.push(`${a.name} positivity`); }
+    else if (a.risk === 'intermediate') { mod++; reasons.moderate.push(`${a.name} positivity`); }
+    else { low++; reasons.low.push(`${a.name} positivity`); }
+  });
+
+  // MAAs (all low)
+  STATE.maa.forEach(id => {
+    const a = MAAS.find(m => m.id === id);
+    if (!a) return;
+    low++; reasons.low.push(`${a.name} positivity`);
+  });
+
+  // Features
+  STATE.features.forEach(id => {
+    const f = FEATURES.find(x => x.id === id);
+    if (!f) return;
+    if (f.risk === 'high') { high++; reasons.high.push(f.name); }
+    else if (f.risk === 'intermediate') { mod++; reasons.moderate.push(f.name); }
+    else { low++; reasons.low.push(f.name); }
+  });
+
+  // Category (Rec 6-8)
+  let category = 'standard';
+  if (high >= 2) category = 'high';
+  else if (mod >= 2 || high === 1) category = 'moderate';
+
+  return { high, mod, low, category, reasons, notes };
+}
+
+function updateLiveCalc() {
+  const r = calcRisk();
+  // Update both calc summaries (on subtype and features screens)
+  ['', '2'].forEach(suffix => {
+    const hc = document.getElementById('calcHighCount' + suffix);
+    const mc = document.getElementById('calcModCount' + suffix);
+    const lc = document.getElementById('calcLowCount' + suffix);
+    const v  = document.getElementById('calcVerdict' + suffix);
+    if (hc) hc.textContent = r.high;
+    if (mc) mc.textContent = r.mod;
+    if (lc) lc.textContent = r.low;
+    if (v) {
+      v.className = `calc-verdict r-${r.category}`;
+      v.textContent = r.category === 'high' ? 'High risk' : (r.category === 'moderate' ? 'Moderate risk' : 'Standard risk');
+    }
+  });
+
+  // Live risk in nav bar
+  const lr = document.getElementById('liveRisk');
+  const lrl = document.getElementById('liveRiskLabel');
+  if (lr && lrl) {
+    lr.className = `live-risk show r-${r.category}`;
+    lrl.textContent = r.category === 'high' ? 'High risk' : (r.category === 'moderate' ? 'Moderate risk' : 'Standard risk');
+  }
+}
+
+/* ============================================================
+   STEP NAVIGATION
+   Landing is an info page with the acknowledgment + Calculate
+   button. The data-entry flow has 4 steps.
+   ============================================================ */
+const SCREENS = ['landing', 'eligibility', 'subtype', 'features', 'results'];
+// NAV_STEPS = steps shown in the progress bar (landing excluded)
+const NAV_STEPS = [
+  { screen: 'eligibility', label: 'Eligibility' },
+  { screen: 'subtype',     label: 'Subtype' },
+  { screen: 'features',    label: 'Features' },
+  { screen: 'results',     label: 'Results' }
+];
+
+function buildSteps() {
+  const wrap = document.getElementById('stepsList');
+  wrap.innerHTML = '';
+  NAV_STEPS.forEach((step, i) => {
+    if (i > 0) {
+      const sep = document.createElement('div');
+      sep.className = 'step-sep';
+      wrap.appendChild(sep);
+    }
+    const s = document.createElement('button');
+    s.type = 'button';
+    s.className = 'step';
+    s.dataset.step = i;
+    s.dataset.screen = step.screen;
+    s.setAttribute('aria-label', `Go to step ${i + 1}: ${step.label}`);
+    s.innerHTML = `<span class="step-num">${i + 1}</span><span>${step.label}</span>`;
+    s.addEventListener('click', () => handleStepClick(i));
+    wrap.appendChild(s);
+  });
+}
+
+function handleStepClick(stepIndex) {
+  // Any step the user has already reached (or any step ≤ current furthest) is clickable
+  if (stepIndex < 0 || stepIndex >= NAV_STEPS.length) return;
+  if (stepIndex > (STATE.maxStepReached || 0)) return;
+  const targetScreen = NAV_STEPS[stepIndex].screen;
+  if (targetScreen) goToScreen(targetScreen);
+}
+
+function goToScreen(name) {
+  // Re-render results whenever navigating to the results screen
+  if (name === 'results') {
+    renderResults();
+  }
+
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  const target = document.getElementById('screen-' + name);
+  if (target) target.classList.add('active');
+
+  // Update progress bar — landing/exit hide it; otherwise mark step state
+  const bar = document.getElementById('progressBar');
+  if (name === 'landing' || name === 'exit') {
+    bar.style.display = 'none';
+  } else {
+    bar.style.display = 'block';
+    const idx = NAV_STEPS.findIndex(s => s.screen === name);
+    // Track furthest step reached so user can jump back to any visited step
+    if (idx > (STATE.maxStepReached || -1)) STATE.maxStepReached = idx;
+
+    document.querySelectorAll('.step').forEach((s, i) => {
+      s.classList.remove('active', 'complete', 'visited');
+      if (i === idx) {
+        s.classList.add('active');
+      } else if (i < idx) {
+        // Already passed in normal forward flow — green
+        s.classList.add('complete');
+      } else if (i <= (STATE.maxStepReached || 0)) {
+        // User went forward and now jumped back — these are visited but ahead of current position
+        s.classList.add('visited');
+      }
+    });
+  }
+
+  // Show/hide live-risk in nav bar
+  const showLive = ['subtype', 'features', 'results'].includes(name);
+  const lr = document.getElementById('liveRisk');
+  if (lr) lr.classList.toggle('show', showLive);
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function restart() {
+  // Clear all state except country/region
+  STATE.acknowledged = false;
+  STATE.caseId = '';
+  STATE.onsetAge = null;
+  STATE.isIBM = null;
+  STATE.timeSinceOnset = null;
+  STATE.subtype = null;
+  STATE.sex = null;
+  STATE.ageOnset = null;
+  STATE.msa = new Set();
+  STATE.maa = new Set();
+  STATE.features = new Set();
+  STATE.redFlags = new Set();
+  STATE.assessmentDate = new Date().toISOString().slice(0, 10);
+
+  // Reset all form inputs
+  document.querySelectorAll('input[type="checkbox"], input[type="radio"]').forEach(i => i.checked = false);
+  document.querySelectorAll('input[type="text"]').forEach(i => i.value = '');
+  document.querySelectorAll('.check-item').forEach(i => i.classList.remove('selected'));
+
+  document.getElementById('btnToSubtype').disabled = true;
+  document.getElementById('btnStartAssessment').disabled = true;
+  STATE.maxStepReached = -1;
+
+  updateLiveCalc();
+  goToScreen('landing');
+}
+
+function changeCountry() {
+  try { localStorage.removeItem('iim_country'); } catch (e) {}
+  document.getElementById('countrySelect').value = '';
+  STATE.country = null;
+  STATE.region = null;
+  document.getElementById('metaCountry').textContent = '—';
+  restart();
+}
+
+function showModal(which) {
+  document.getElementById('modalBackdrop').classList.add('show');
+}
+function hideModal() {
+  document.getElementById('modalBackdrop').classList.remove('show');
+}
+document.getElementById('modalBackdrop').addEventListener('click', e => {
+  if (e.target.id === 'modalBackdrop') hideModal();
+});
+
+function capitalise(s) {
+  return s.charAt(0).toUpperCase() + s.slice(1);
+}
+
+/* ============================================================
+   RESULTS RENDERING
+   ============================================================ */
+function renderResults() {
+  const r = calcRisk();
+  const container = document.getElementById('resultsContent');
+  const country = COUNTRIES.find(c => c.name === STATE.country);
+  const isNPC = country && country.npcRisk;
+
+  // Build screening plan
+  const plan = buildScreeningPlan(r, isNPC);
+
+  // Determine category label
+  const catLabel = r.category === 'high' ? 'High risk' : (r.category === 'moderate' ? 'Moderate risk' : 'Standard risk');
+  const catDesc = {
+    high: 'This patient meets criteria for high risk of IIM-associated cancer per Recommendation 6 (≥2 high-risk factors). Comprehensive screening is recommended at diagnosis with follow-up screening over the next 3 years.',
+    moderate: 'This patient meets criteria for moderate risk of IIM-associated cancer per Recommendation 7 (≥2 intermediate-risk factors or exactly 1 high-risk factor). Basic and enhanced screening are recommended at diagnosis.',
+    standard: 'This patient does not meet criteria for high or moderate risk per Recommendations 6 or 7. Basic screening is recommended at diagnosis. Note: standard-risk IIM patients likely still carry elevated cancer risk compared with the general population.'
+  }[r.category];
+
+  const allReasons = [...r.reasons.high.map(x => ({t:x,k:'high'})), ...r.reasons.moderate.map(x => ({t:x,k:'moderate'})), ...r.reasons.low.map(x => ({t:x,k:'low'}))];
+
+  let html = `
+    <div class="result-hero r-${r.category}">
+      <div class="result-hero-eyebrow">Step 4 of 4 · Risk stratification &amp; screening plan</div>
+      <h2>${catLabel}</h2>
+      <p>${catDesc}</p>
+      <div class="chip-cloud">
+        ${r.reasons.high.map(x => `<span class="chip">${x}</span>`).join('')}
+        ${r.reasons.moderate.map(x => `<span class="chip">${x}</span>`).join('')}
+        ${r.reasons.low.length ? `<span class="chip" style="opacity:0.6;">+${r.reasons.low.length} low-risk factor${r.reasons.low.length !== 1 ? 's' : ''}</span>` : ''}
+      </div>
+    </div>
+
+    <!-- Quick-action strip: save before you read, for the user who wants speed -->
+    <div class="quick-actions no-print" role="toolbar" aria-label="Quick save actions">
+      <span class="quick-actions-label">Quick save:</span>
+      <button class="quick-action-btn" onclick="exportPDF()" title="Download as PDF — opens print dialog">
+        <span class="quick-action-icon">📥</span>
+        <span>PDF</span>
+      </button>
+      <button class="quick-action-btn" onclick="copyToClipboard()" title="Copy clinical summary to clipboard">
+        <span class="quick-action-icon">📋</span>
+        <span>Copy summary</span>
+      </button>
+      <span class="quick-actions-hint">More export options below ↓</span>
+    </div>
+
+    <div class="card">
+      <h2>Patient summary</h2>
+      <table style="width:100%;margin-top:1rem;border-collapse:collapse;font-size:0.9rem;">
+        <tbody>
+          ${STATE.caseId ? `<tr><td style="padding:6px 0;color:var(--text-muted);width:40%;">Case identifier</td><td style="padding:6px 0;font-family:var(--font-mono);">${escapeHtml(STATE.caseId)}</td></tr>` : ''}
+          <tr><td style="padding:6px 0;color:var(--text-muted);">Assessment date</td><td style="padding:6px 0;font-family:var(--font-mono);">${STATE.assessmentDate}</td></tr>
+          <tr><td style="padding:6px 0;color:var(--text-muted);">Region</td><td style="padding:6px 0;">${STATE.country}</td></tr>
+          <tr><td style="padding:6px 0;color:var(--text-muted);">IIM subtype</td><td style="padding:6px 0;">${SUBTYPES.find(s => s.id === STATE.subtype)?.name || '—'}</td></tr>
+          <tr><td style="padding:6px 0;color:var(--text-muted);">Sex</td><td style="padding:6px 0;">${STATE.sex ? capitalise(STATE.sex) : '—'}</td></tr>
+          <tr><td style="padding:6px 0;color:var(--text-muted);">Age at IIM onset</td><td style="padding:6px 0;">${STATE.ageOnset === 'over40' ? '>40 years' : (STATE.ageOnset === 'under40' ? '18–40 years' : '—')}</td></tr>
+          <tr><td style="padding:6px 0;color:var(--text-muted);">Time since onset</td><td style="padding:6px 0;">${STATE.timeSinceOnset === 'within3' ? 'Within 3 years' : (STATE.timeSinceOnset === 'beyond3' ? '>3 years' : '—')}</td></tr>
+          <tr><td style="padding:6px 0;color:var(--text-muted);">Positive MSAs</td><td style="padding:6px 0;">${STATE.msa.size ? Array.from(STATE.msa).map(id => MSAS.find(a=>a.id===id)?.name).join(', ') : 'None recorded'}</td></tr>
+          <tr><td style="padding:6px 0;color:var(--text-muted);">Positive MAAs</td><td style="padding:6px 0;">${STATE.maa.size ? Array.from(STATE.maa).map(id => MAAS.find(a=>a.id===id)?.name).join(', ') : 'None recorded'}</td></tr>
+          <tr><td style="padding:6px 0;color:var(--text-muted);vertical-align:top;">Red flags</td><td style="padding:6px 0;">${STATE.redFlags.size ? Array.from(STATE.redFlags).map(id => RED_FLAGS.find(f=>f.id===id)?.name).join(', ') : 'None'}</td></tr>
+        </tbody>
+      </table>
+    </div>
+  `;
+
+  // Red flag alert
+  if (STATE.redFlags.size > 0) {
+    html += `
+      <div class="rec-block" style="border-left:4px solid var(--high);background:var(--high-bg);">
+        <h3><span style="color:var(--high);">⚠ Red flags present</span> <span class="rec-meta"><span class="rec-tag cond">Conditional</span><span class="rec-tag evidence-d">Evidence D</span></span></h3>
+        <p><strong>Recommendation 18:</strong> The following red-flag features should prompt consideration of cancer screening regardless of overall risk category:</p>
+        <ul class="order-list">
+          ${Array.from(STATE.redFlags).map(id => `<li><span class="check-mark"></span><span>${RED_FLAGS.find(f=>f.id===id)?.name}</span></li>`).join('')}
+        </ul>
+        <div class="rec-note">Investigate organ-specific symptoms (e.g., haemoptysis → lung cancer; persistent dysphagia → oesophageal cancer; rectal bleeding → colorectal cancer) with directed imaging or endoscopy as clinically appropriate.</div>
+      </div>
+    `;
+  }
+
+  // Render all the recommendation blocks
+  html += plan;
+
+  // Export buttons — friendly save/share framing
+  html += `
+    <div class="card no-print save-callout">
+      <div class="save-callout-icon">📥</div>
+      <h2>Save or share this assessment</h2>
+      <p class="lead mt-2">Because no data is stored, this assessment lives only in your current browser session. <strong>Download it now</strong> if you'd like to keep it, attach it to the patient's chart, or share it with a colleague.</p>
+      <div class="export-grid mt-4">
+        <button class="export-btn" onclick="exportPDF()">
+          <span class="export-icon">PDF</span>
+          <span class="export-title">Download as PDF</span>
+          <span class="export-desc">Print-ready summary — opens print dialog, choose "Save as PDF" to download.</span>
+        </button>
+        <button class="export-btn" onclick="exportClinicalNote()">
+          <span class="export-icon">TXT</span>
+          <span class="export-title">Clinical note summary</span>
+          <span class="export-desc">Structured text summary to paste into Epic, Cerner, EMIS, or any EMR.</span>
+        </button>
+        <button class="export-btn" onclick="exportJSON()">
+          <span class="export-icon">JSON</span>
+          <span class="export-title">FHIR-aligned JSON</span>
+          <span class="export-desc">Structured data for system integration, audit, or research.</span>
+        </button>
+      </div>
+      <div class="btn-row mt-4">
+        <button class="btn btn-secondary" onclick="copyToClipboard()">📋 Copy summary to clipboard</button>
+        <button class="btn btn-ghost" onclick="restart()">Start a new assessment</button>
+      </div>
+      <p class="small muted mt-4" style="text-align:center;">
+        🔒 All files are generated in your browser and downloaded directly to your device. Nothing is transmitted to any server.
+      </p>
+      <p class="small mt-3" style="text-align:center;">
+        Have feedback about this recommendation, or notice something off?
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLScoHYamqz3i2Nz2sKEBcG-5Cw12Famzbdf-XHPiAjsrUCW4Pg/viewform" target="_blank" rel="noopener" style="color:var(--kp-blue);font-weight:500;">Tell us &rarr;</a>
+      </p>
+    </div>
+  `;
+
+  container.innerHTML = html;
+}
+
+function buildScreeningPlan(r, isNPC) {
+  let html = '';
+
+  // General population screening reminder (Rec 3)
+  html += `
+    <div class="rec-block">
+      <h3>Continue general-population cancer screening
+        <span class="rec-meta"><span class="rec-tag strong">Strong</span><span class="rec-tag evidence-b">Evidence B</span><span class="rec-tag">Rec 3</span></span>
+      </h3>
+      <p>Regardless of risk category, all patients with IIM should participate in country- or region-specific age- and sex-appropriate cancer screening programmes available in <strong>${STATE.country}</strong> (e.g., mammography, cervical, bowel/colorectal, low-dose CT for lung cancer where indicated).</p>
+    </div>
+  `;
+
+  // Basic panel (Rec 9) — all patients with adult IIM
+  html += `
+    <div class="rec-block">
+      <h3>Basic cancer screening — at diagnosis
+        <span class="rec-meta"><span class="rec-tag strong">Strong</span><span class="rec-tag evidence-c">Evidence C</span><span class="rec-tag">Rec 9</span></span>
+      </h3>
+      <p>Order the following at the time of IIM diagnosis, in addition to general-population screening:</p>
+      <ul class="order-list">
+        <li><span class="check-mark"></span><span>Comprehensive history (including red flags, family history, smoking, exposures)</span></li>
+        <li><span class="check-mark"></span><span>Comprehensive physical examination (including lymphadenopathy, breast, prostate where appropriate)</span></li>
+        <li><span class="check-mark"></span><span>Complete blood count (CBC) with differential</span></li>
+        <li><span class="check-mark"></span><span>Serum liver function tests (LFTs)</span></li>
+        <li><span class="check-mark"></span><span>Serum ESR and/or plasma viscosity</span></li>
+        <li><span class="check-mark"></span><span>Serum C-reactive protein (CRP)</span></li>
+        <li><span class="check-mark"></span><span>Serum protein electrophoresis and free light chains</span></li>
+        <li><span class="check-mark"></span><span>Urinalysis</span></li>
+        <li><span class="check-mark"></span><span>Plain chest radiograph (PA + lateral)</span></li>
+      </ul>
+    </div>
+  `;
+
+  // Enhanced panel (Rec 10) — moderate + high
+  if (r.category === 'moderate' || r.category === 'high') {
+    html += `
+      <div class="rec-block">
+        <h3>Enhanced cancer screening — at diagnosis
+          <span class="rec-meta"><span class="rec-tag strong">Strong</span><span class="rec-tag evidence-c">Evidence C</span><span class="rec-tag">Rec 10, 12, 13</span></span>
+        </h3>
+        <p>${r.category === 'high' ? 'High-risk' : 'Moderate-risk'} patients should additionally undergo:</p>
+        <ul class="order-list">
+          <li><span class="check-mark"></span><span><strong>CT of neck, thorax, abdomen, and pelvis</strong> (with contrast where appropriate)</span></li>
+          <li><span class="check-mark"></span><span>Cervical screening (if not already current per general-population programme)</span></li>
+          <li><span class="check-mark"></span><span>Mammography (if not already current per general-population programme)</span></li>
+          <li><span class="check-mark"></span><span>Prostate-specific antigen (PSA) blood test (males, if not already current)</span></li>
+          <li><span class="check-mark"></span><span>CA-125 blood test (females)</span></li>
+          <li><span class="check-mark"></span><span>Pelvic or transvaginal ultrasonography for ovarian cancer (females)</span></li>
+          <li><span class="check-mark"></span><span>Faecal occult blood / FIT (if not already current per general-population programme)</span></li>
+        </ul>
+        <div class="rec-note">Avoid duplicating tests recently performed under general-population screening. Weigh cumulative radiation exposure (CT-based investigations) against benefit on an individual patient basis.</div>
+      </div>
+    `;
+  }
+
+  // High-risk follow-up
+  if (r.category === 'high') {
+    const date = new Date(STATE.assessmentDate);
+    const yr1 = new Date(date); yr1.setFullYear(yr1.getFullYear() + 1);
+    const yr2 = new Date(date); yr2.setFullYear(yr2.getFullYear() + 2);
+    const yr3 = new Date(date); yr3.setFullYear(yr3.getFullYear() + 3);
+    const fmt = d => d.toISOString().slice(0, 10);
+
+    html += `
+      <div class="rec-block">
+        <h3>Annual basic screening for 3 years
+          <span class="rec-meta"><span class="rec-tag strong">Strong</span><span class="rec-tag">Rec 13</span></span>
+        </h3>
+        <p>High-risk patients should undergo basic cancer screening annually for 3 years from IIM diagnosis. Schedule:</p>
+        <div class="timeline">
+          <div class="timeline-item">
+            <span class="timeline-date">Year 1 · ${fmt(yr1)}</span>
+            <span class="timeline-content">Repeat basic cancer screening panel (history, examination, CBC, LFTs, ESR/CRP, SPEP/FLC, urinalysis, CXR).</span>
+          </div>
+          <div class="timeline-item">
+            <span class="timeline-date">Year 2 · ${fmt(yr2)}</span>
+            <span class="timeline-content">Repeat basic cancer screening panel.</span>
+          </div>
+          <div class="timeline-item">
+            <span class="timeline-date">Year 3 · ${fmt(yr3)}</span>
+            <span class="timeline-content">Repeat basic cancer screening panel.</span>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  // Additional considerations for high-risk: PET-CT and GI endoscopy
+  if (r.category === 'high') {
+    // PET-CT (Rec 14)
+    html += `
+      <div class="rec-block">
+        <h3>Consider ¹⁸F-FDG PET–CT
+          <span class="rec-meta"><span class="rec-tag cond">Conditional</span><span class="rec-tag evidence-c">Evidence C</span><span class="rec-tag">Rec 14</span></span>
+        </h3>
+        <p>If underlying cancer is not detected on basic and enhanced screening at diagnosis, consider ¹⁸F-FDG PET–CT — particularly if lymphoma is suspected.</p>
+        <div class="rec-note">PET–CT can identify cancers at a comparable rate to multiple conventional investigations combined. Balance benefit against cumulative radiation exposure and local availability.</div>
+      </div>
+    `;
+
+    // Special: PET-CT as single investigation (Rec 15)
+    const isTIF1pos = STATE.msa.has('TIF1g');
+    const isDM = STATE.subtype === 'DM';
+    const isOver40 = STATE.ageOnset === 'over40';
+    const highRiskClinFeatures = ['persistent_activity', 'dysphagia', 'cutaneous_necrosis'].filter(f => STATE.features.has(f)).length;
+    if (isTIF1pos && isDM && isOver40 && highRiskClinFeatures >= 1) {
+      html += `
+        <div class="rec-block" style="border-color:var(--accent);">
+          <h3>¹⁸F-FDG PET–CT as single screening investigation
+            <span class="rec-meta"><span class="rec-tag cond">Conditional</span><span class="rec-tag evidence-c">Evidence C</span><span class="rec-tag">Rec 15</span></span>
+          </h3>
+          <p>This patient meets criteria for PET–CT as a single screening investigation: <strong>anti-TIF1γ-positive dermatomyositis</strong>, onset age &gt;40, and ≥1 additional high-risk clinical feature. PET–CT may replace the multiple conventional investigations in the enhanced panel, facilitating earlier diagnosis with fewer separate procedures.</p>
+          <div class="rec-note">This option may be particularly valuable where the patient would otherwise undergo many sequential investigations. Local availability and radiation exposure considerations still apply.</div>
+        </div>
+      `;
+    }
+
+    // GI endoscopy (Rec 16)
+    html += `
+      <div class="rec-block">
+        <h3>Consider upper &amp; lower GI endoscopy
+          <span class="rec-meta"><span class="rec-tag cond">Conditional</span><span class="rec-tag evidence-d">Evidence D</span><span class="rec-tag">Rec 16</span></span>
+        </h3>
+        <p>The GI tract is a common site of IIM-associated cancer. If basic and enhanced screening do not identify a cancer, consider upper and lower GI endoscopy.</p>
+        <div class="rec-note">Weigh procedural risks (e.g., bowel perforation) against benefit. May overlap with country-specific bowel cancer screening programmes.</div>
+      </div>
+    `;
+  }
+
+  // Nasoendoscopy (Rec 17) — triggered by geography
+  if (isNPC) {
+    html += `
+      <div class="rec-block">
+        <h3>Consider nasoendoscopy
+          <span class="rec-meta"><span class="rec-tag cond">Conditional</span><span class="rec-tag evidence-d">Evidence D</span><span class="rec-tag">Rec 17</span></span>
+        </h3>
+        <p><strong>Triggered by selected region (${STATE.country}):</strong> elevated nasopharyngeal carcinoma incidence. Consider nasoendoscopy at the time of IIM diagnosis. Reported prevalence of nasopharyngeal cancer in adults with dermatomyositis: 37% in Hong Kong, 28% in Malaysia, 12% in Singapore.</p>
+      </div>
+    `;
+  }
+
+  // Standard-risk follow-up note
+  if (r.category === 'standard' || r.category === 'moderate') {
+    html += `
+      <div class="rec-block" style="background:var(--paper-warm);border-style:dashed;">
+        <h3>Follow-up</h3>
+        <p class="small">No routine repeat screening is recommended at scheduled intervals for ${r.category}-risk patients per the guideline. Re-stratify if clinical features, autoantibody profile, or disease activity change. Patients remain within the 3-year window of elevated risk from symptom onset.</p>
+      </div>
+    `;
+  }
+
+  return html;
+}
+
+/* ============================================================
+   EXPORTS
+   ============================================================ */
+function exportPDF() {
+  window.print();
+}
+
+function buildClinicalNoteText() {
+  const r = calcRisk();
+  const country = COUNTRIES.find(c => c.name === STATE.country);
+  const isNPC = country && country.npcRisk;
+  const catLabel = r.category === 'high' ? 'HIGH' : (r.category === 'moderate' ? 'MODERATE' : 'STANDARD');
+  const subtype = SUBTYPES.find(s => s.id === STATE.subtype);
+
+  const lines = [];
+  lines.push('===========================================================');
+  lines.push('IIM CANCER SCREENING ASSESSMENT (IMACS 2023 GUIDELINE)');
+  lines.push('===========================================================');
+  lines.push('');
+  if (STATE.caseId) lines.push(`Case identifier:    ${STATE.caseId}`);
+  lines.push(`Assessment date:    ${STATE.assessmentDate}`);
+  lines.push(`Region:             ${STATE.country}`);
+  lines.push(`Tool version:       ${STATE.toolVersion}`);
+  lines.push(`Guideline:          ${STATE.guidelineVersion} (Oldroyd et al., Nat Rev Rheumatol 2023)`);
+  lines.push('');
+  lines.push('--- PATIENT PROFILE ---');
+  lines.push(`IIM subtype:        ${subtype?.name || 'not recorded'}`);
+  lines.push(`Sex:                ${STATE.sex || 'not recorded'}`);
+  lines.push(`Age at IIM onset:   ${STATE.ageOnset === 'over40' ? '>40 years' : (STATE.ageOnset === 'under40' ? '18-40 years' : 'not recorded')}`);
+  lines.push(`Time since onset:   ${STATE.timeSinceOnset === 'within3' ? 'within 3 years' : '>3 years'}`);
+  lines.push(`Positive MSAs:      ${STATE.msa.size ? Array.from(STATE.msa).map(id => MSAS.find(a=>a.id===id)?.name).join(', ') : 'none recorded'}`);
+  lines.push(`Positive MAAs:      ${STATE.maa.size ? Array.from(STATE.maa).map(id => MAAS.find(a=>a.id===id)?.name).join(', ') : 'none recorded'}`);
+  lines.push(`Clinical features:  ${STATE.features.size ? Array.from(STATE.features).map(id => FEATURES.find(f=>f.id===id)?.name).join('; ') : 'none recorded'}`);
+  lines.push(`Red flags:          ${STATE.redFlags.size ? Array.from(STATE.redFlags).map(id => RED_FLAGS.find(f=>f.id===id)?.name).join(', ') : 'none'}`);
+  lines.push('');
+  lines.push('--- RISK STRATIFICATION ---');
+  lines.push(`Risk category:      ${catLabel} RISK OF IIM-RELATED CANCER`);
+  lines.push(`Factor counts:      high=${r.high}, intermediate=${r.mod}, low=${r.low}`);
+  if (r.reasons.high.length) lines.push(`High-risk factors:  ${r.reasons.high.join('; ')}`);
+  if (r.reasons.moderate.length) lines.push(`Intermediate:       ${r.reasons.moderate.join('; ')}`);
+  if (r.reasons.low.length) lines.push(`Low-risk factors:   ${r.reasons.low.join('; ')}`);
+  lines.push('');
+  lines.push('Note: risk category is relative to the broader IIM population,');
+  lines.push('not the general population. Standard-risk IIM patients likely');
+  lines.push('still carry elevated cancer risk vs general population.');
+  lines.push('');
+  lines.push('--- RECOMMENDED SCREENING ---');
+  lines.push('');
+  lines.push('At time of diagnosis:');
+  lines.push('  BASIC PANEL (all patients):');
+  lines.push('    - Comprehensive history & physical examination');
+  lines.push('    - CBC with differential');
+  lines.push('    - LFTs');
+  lines.push('    - ESR and/or plasma viscosity');
+  lines.push('    - CRP');
+  lines.push('    - SPEP + free light chains');
+  lines.push('    - Urinalysis');
+  lines.push('    - Chest radiograph');
+
+  if (r.category === 'moderate' || r.category === 'high') {
+    lines.push('');
+    lines.push('  ENHANCED PANEL:');
+    lines.push('    - CT neck/thorax/abdomen/pelvis');
+    lines.push('    - Cervical screening (if not already current)');
+    lines.push('    - Mammography (if not already current)');
+    lines.push('    - PSA (male, if not already current)');
+    lines.push('    - CA-125 (female)');
+    lines.push('    - Pelvic/transvaginal US for ovarian cancer (female)');
+    lines.push('    - FOBT/FIT (if not already current)');
+  }
+
+  if (r.category === 'high') {
+    const date = new Date(STATE.assessmentDate);
+    const yr1 = new Date(date); yr1.setFullYear(yr1.getFullYear() + 1);
+    const yr2 = new Date(date); yr2.setFullYear(yr2.getFullYear() + 2);
+    const yr3 = new Date(date); yr3.setFullYear(yr3.getFullYear() + 3);
+    const fmt = d => d.toISOString().slice(0, 10);
+    lines.push('');
+    lines.push('Follow-up (basic panel repeated annually for 3 years):');
+    lines.push(`    - Year 1: ${fmt(yr1)}`);
+    lines.push(`    - Year 2: ${fmt(yr2)}`);
+    lines.push(`    - Year 3: ${fmt(yr3)}`);
+    lines.push('');
+    lines.push('Consider additional investigations:');
+    lines.push('    - 18F-FDG PET-CT (Rec 14)');
+    lines.push('    - Upper & lower GI endoscopy (Rec 16)');
+
+    const isTIF1pos = STATE.msa.has('TIF1g');
+    const isDM = STATE.subtype === 'DM';
+    const isOver40 = STATE.ageOnset === 'over40';
+    const highRiskClinFeatures = ['persistent_activity', 'dysphagia', 'cutaneous_necrosis'].filter(f => STATE.features.has(f)).length;
+    if (isTIF1pos && isDM && isOver40 && highRiskClinFeatures >= 1) {
+      lines.push('    - Patient qualifies for 18F-FDG PET-CT as SINGLE');
+      lines.push('      screening investigation (Rec 15) — anti-TIF1g+ DM,');
+      lines.push('      age >40, with high-risk clinical feature(s).');
+    }
+  }
+
+  if (isNPC) {
+    lines.push('');
+    lines.push(`Geographic consideration: ${STATE.country} has elevated`);
+    lines.push('nasopharyngeal carcinoma incidence. Consider nasoendoscopy');
+    lines.push('at IIM diagnosis (Rec 17).');
+  }
+
+  if (STATE.redFlags.size > 0) {
+    lines.push('');
+    lines.push('*** RED FLAGS PRESENT (Rec 18) ***');
+    lines.push('Consider cancer screening regardless of risk category:');
+    Array.from(STATE.redFlags).forEach(id => {
+      const f = RED_FLAGS.find(x => x.id === id);
+      if (f) lines.push(`    - ${f.name}`);
+    });
+  }
+
+  lines.push('');
+  lines.push('Continue country-specific age- and sex-appropriate general');
+  lines.push('population cancer screening (Rec 3).');
+  lines.push('');
+  lines.push('--- DISCLAIMER ---');
+  lines.push('Clinical decision support only — not a substitute for clinical');
+  lines.push('judgment. This tool is an independent implementation of the');
+  lines.push('IMACS 2023 guideline and has not been formally endorsed by');
+  lines.push('IMACS or evaluated by any regulatory authority.');
+  lines.push('');
+  lines.push(`Generated by IIM Cancer Screening Tool v${STATE.toolVersion}`);
+  lines.push('===========================================================');
+  return lines.join('\n');
+}
+
+function exportClinicalNote() {
+  const text = buildClinicalNoteText();
+  const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+  const filename = `IIM-screening-${STATE.caseId || 'case'}-${STATE.assessmentDate}.txt`;
+  triggerDownload(blob, filename);
+}
+
+function copyToClipboard() {
+  const text = buildClinicalNoteText();
+  navigator.clipboard.writeText(text).then(() => {
+    alert('Clinical note copied to clipboard. You can now paste it into your EMR.');
+  }).catch(() => {
+    alert('Copy failed. Use the "Clinical note (text)" export instead.');
+  });
+}
+
+function buildFHIRJSON() {
+  const r = calcRisk();
+  const country = COUNTRIES.find(c => c.name === STATE.country);
+  const isNPC = country && country.npcRisk;
+  const subtype = SUBTYPES.find(s => s.id === STATE.subtype);
+
+  // Generate deterministic assessment ID (hash of key inputs)
+  const idSource = `${STATE.caseId}|${STATE.subtype}|${STATE.sex}|${STATE.ageOnset}|${Array.from(STATE.msa).sort().join(',')}|${Array.from(STATE.features).sort().join(',')}|${STATE.assessmentDate}`;
+  const assessmentId = hashString(idSource);
+
+  // SNOMED CT mapping for IIM subtypes
+  const subtypeCodes = {
+    DM: { system: 'http://snomed.info/sct', code: '396230008', display: 'Dermatomyositis' },
+    CADM: { system: 'http://snomed.info/sct', code: '724321009', display: 'Clinically amyopathic dermatomyositis' },
+    PM: { system: 'http://snomed.info/sct', code: '31384009', display: 'Polymyositis' },
+    IMNM: { system: 'http://snomed.info/sct', code: '722469001', display: 'Immune-mediated necrotizing myopathy' },
+    ASSD: { system: 'http://snomed.info/sct', code: '724330001', display: 'Antisynthetase syndrome' },
+    OVERLAP: { system: 'http://snomed.info/sct', code: '410048000', display: 'Overlap connective tissue disease' }
+  };
+
+  // LOINC for autoantibodies (where stable codes exist)
+  const msaLoincMap = {
+    TIF1g: '94506-3',
+    Jo1: '11062-0',
+    SRP: '34539-0',
+    Mi2: '34540-8',
+    NXP2: 'TBD',
+    SAE1: 'TBD',
+    HMGCR: 'TBD',
+    MDA5: 'TBD',
+    nonJo1: 'TBD'
+  };
+
+  const observations = [];
+  STATE.msa.forEach(id => {
+    const a = MSAS.find(x => x.id === id);
+    if (!a) return;
+    observations.push({
+      resourceType: 'Observation',
+      status: 'final',
+      category: [{ coding: [{ system: 'http://terminology.hl7.org/CodeSystem/observation-category', code: 'laboratory' }] }],
+      code: msaLoincMap[id] && msaLoincMap[id] !== 'TBD'
+        ? { coding: [{ system: 'http://loinc.org', code: msaLoincMap[id], display: a.name + ' Ab' }] }
+        : { text: a.name + ' antibody' },
+      valueCodeableConcept: { text: 'Positive' }
+    });
+  });
+  STATE.maa.forEach(id => {
+    const a = MAAS.find(x => x.id === id);
+    if (!a) return;
+    observations.push({
+      resourceType: 'Observation',
+      status: 'final',
+      category: [{ coding: [{ system: 'http://terminology.hl7.org/CodeSystem/observation-category', code: 'laboratory' }] }],
+      code: { text: a.name + ' antibody' },
+      valueCodeableConcept: { text: 'Positive' }
+    });
+  });
+
+  // Recommended ServiceRequests
+  const serviceRequests = [];
+  const addOrder = (code, display) => {
+    serviceRequests.push({
+      resourceType: 'ServiceRequest',
+      status: 'draft',
+      intent: 'proposal',
+      code: { text: display },
+      reasonCode: [{ text: 'IIM-associated cancer screening per IMACS 2023 guideline' }]
+    });
+  };
+  // Basic panel
+  ['Complete blood count', 'Liver function tests', 'ESR / plasma viscosity', 'C-reactive protein',
+   'Serum protein electrophoresis and free light chains', 'Urinalysis', 'Chest radiograph']
+    .forEach(o => addOrder(null, o));
+  if (r.category === 'moderate' || r.category === 'high') {
+    ['CT neck/thorax/abdomen/pelvis', 'Cervical screening (if not current)', 'Mammography (if not current)',
+     'PSA (male)', 'CA-125 (female)', 'Pelvic/transvaginal ultrasonography (female)', 'FOBT/FIT (if not current)']
+      .forEach(o => addOrder(null, o));
+  }
+  if (r.category === 'high') {
+    addOrder(null, '18F-FDG PET-CT (consider, Rec 14)');
+    addOrder(null, 'Upper & lower GI endoscopy (consider, Rec 16)');
+  }
+  if (isNPC) addOrder(null, 'Nasoendoscopy (consider, Rec 17)');
+
+  const bundle = {
+    resourceType: 'Bundle',
+    type: 'collection',
+    meta: {
+      profile: ['http://hl7.org/fhir/StructureDefinition/Bundle'],
+      tag: [
+        { system: 'iim-screening-tool', code: 'v' + STATE.toolVersion },
+        { system: 'guideline', code: STATE.guidelineVersion }
+      ]
+    },
+    identifier: { value: assessmentId },
+    timestamp: new Date().toISOString(),
+    entry: [
+      {
+        resource: {
+          resourceType: 'Patient',
+          identifier: STATE.caseId ? [{ value: STATE.caseId, use: 'usual' }] : undefined,
+          gender: STATE.sex || 'unknown'
+          // Note: no date of birth or name — anonymous per tool design
+        }
+      },
+      subtype ? {
+        resource: {
+          resourceType: 'Condition',
+          clinicalStatus: { coding: [{ system: 'http://terminology.hl7.org/CodeSystem/condition-clinical', code: 'active' }] },
+          code: subtypeCodes[subtype.id] ? { coding: [subtypeCodes[subtype.id]] } : { text: subtype.name }
+        }
+      } : null,
+      ...observations.map(o => ({ resource: o })),
+      {
+        resource: {
+          resourceType: 'RiskAssessment',
+          status: 'final',
+          occurrenceDateTime: STATE.assessmentDate,
+          method: { text: 'IMACS 2023 IIM cancer screening guideline' },
+          prediction: [{
+            outcome: { text: 'IIM-associated cancer within 3 years of IIM onset' },
+            qualitativeRisk: {
+              coding: [{
+                system: 'http://terminology.hl7.org/CodeSystem/risk-probability',
+                code: r.category,
+                display: r.category.charAt(0).toUpperCase() + r.category.slice(1) + ' risk'
+              }],
+              text: r.category === 'high' ? 'High risk' : (r.category === 'moderate' ? 'Moderate risk' : 'Standard risk')
+            },
+            rationale: 'Risk relative to the IIM population, not general population. ' +
+              `High-risk factors: ${r.high}. Intermediate-risk factors: ${r.mod}. Low-risk factors: ${r.low}.`
+          }],
+          basis: [
+            ...r.reasons.high.map(t => ({ display: 'High-risk: ' + t })),
+            ...r.reasons.moderate.map(t => ({ display: 'Intermediate-risk: ' + t })),
+            ...r.reasons.low.map(t => ({ display: 'Low-risk: ' + t }))
+          ]
+        }
+      },
+      {
+        resource: {
+          resourceType: 'CarePlan',
+          status: 'draft',
+          intent: 'plan',
+          title: 'IIM-associated cancer screening plan',
+          description: `Screening plan generated per IMACS 2023 guideline for ${r.category}-risk IIM patient.`,
+          period: { start: STATE.assessmentDate },
+          activity: serviceRequests.map(sr => ({ detail: { kind: 'ServiceRequest', code: sr.code, status: 'not-started' } }))
+        }
+      },
+      ...serviceRequests.map(sr => ({ resource: sr })),
+      ...(STATE.redFlags.size ? [{
+        resource: {
+          resourceType: 'Flag',
+          status: 'active',
+          category: [{ text: 'Clinical' }],
+          code: { text: 'Red-flag features present — consider cancer screening regardless of risk category (IMACS Rec 18)' },
+          period: { start: STATE.assessmentDate }
+        }
+      }] : [])
+    ].filter(Boolean)
+  };
+
+  return bundle;
+}
+
+function exportJSON() {
+  const bundle = buildFHIRJSON();
+  const json = JSON.stringify(bundle, null, 2);
+  const blob = new Blob([json], { type: 'application/json' });
+  const filename = `IIM-screening-${STATE.caseId || 'case'}-${STATE.assessmentDate}.json`;
+  triggerDownload(blob, filename);
+}
+
+function triggerDownload(blob, filename) {
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+function hashString(str) {
+  // Simple deterministic ID generator from inputs
+  let h = 0;
+  for (let i = 0; i < str.length; i++) {
+    h = ((h << 5) - h) + str.charCodeAt(i);
+    h |= 0;
+  }
+  return 'IIM-' + Math.abs(h).toString(16).padStart(8, '0');
+}
+
+function escapeHtml(s) {
+  if (!s) return '';
+  return s.replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+}
+
+/* ============================================================
+   START
+   ============================================================ */
+document.addEventListener('DOMContentLoaded', init);
+</script>
+
+</body>
+</html>
