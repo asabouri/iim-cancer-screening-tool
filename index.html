@@ -365,6 +365,224 @@ p:last-child { margin-bottom: 0; }
 .mono { font-family: var(--font-mono); }
 
 /* =========================================================================
+   SVG ICONS — Lucide-style, single weight, color inherits from currentColor
+   ========================================================================= */
+.icon {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.15em;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.75;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  flex-shrink: 0;
+}
+.icon-lg { width: 1.4em; height: 1.4em; }
+.icon-xl { width: 1.75em; height: 1.75em; vertical-align: -0.3em; }
+.icon-2x { width: 2.25em; height: 2.25em; }
+.icon-3x { width: 3rem; height: 3rem; }
+
+/* =========================================================================
+   COMPACT ROW LIST — for long checkbox lists (antibodies)
+   Distinct from .check-item bordered cards used for primary decisions
+   ========================================================================= */
+.row-list {
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: var(--s-3);
+}
+
+.row-list-section-label {
+  background: var(--paper-warm);
+  border-bottom: 1px solid var(--rule);
+  padding: var(--s-2) var(--s-4);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-soft);
+  font-weight: 500;
+}
+
+.row-item {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  padding: var(--s-2) var(--s-4);
+  border-bottom: 1px solid var(--rule-soft);
+  cursor: pointer;
+  transition: background 0.12s;
+  min-height: 44px; /* tap-friendly on mobile */
+}
+.row-item:last-child { border-bottom: none; }
+.row-item:hover { background: var(--paper-warm); }
+
+.row-item input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  accent-color: var(--ink);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.row-item-name {
+  flex: 1;
+  font-size: 0.93rem;
+  color: var(--text);
+  line-height: 1.4;
+}
+
+.row-item.selected {
+  background: var(--paper-warm);
+}
+.row-item.risk-high.selected { background: var(--high-bg); }
+.row-item.risk-moderate.selected { background: var(--moderate-bg); }
+.row-item.risk-low.selected { background: var(--standard-bg); }
+
+.row-item.row-status {
+  background: rgba(244, 239, 227, 0.4);
+  border-style: dashed;
+}
+.row-item.row-status.selected {
+  background: var(--paper-warm);
+}
+
+.row-item-info {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  color: var(--text-muted);
+  cursor: help;
+  position: relative;
+  flex-shrink: 0;
+}
+.row-item-info:hover { color: var(--ink); }
+
+.row-item-info .info-popover {
+  position: absolute;
+  bottom: calc(100% + 6px);
+  right: 0;
+  width: 280px;
+  max-width: 80vw;
+  background: var(--ink);
+  color: var(--paper);
+  padding: var(--s-3) var(--s-4);
+  border-radius: var(--radius);
+  font-size: 0.8rem;
+  font-weight: 400;
+  line-height: 1.5;
+  z-index: 100;
+  box-shadow: var(--shadow-lg);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s;
+  text-align: left;
+}
+.row-item-info:hover .info-popover,
+.row-item-info:focus .info-popover { opacity: 1; }
+
+/* =========================================================================
+   COLLAPSIBLE SECTIONS — for results page (At diagnosis / Follow-up / etc.)
+   ========================================================================= */
+.section-group {
+  margin-bottom: var(--s-5);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-lg);
+  background: var(--paper);
+  overflow: hidden;
+}
+
+.section-group-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--s-4) var(--s-5);
+  cursor: pointer;
+  background: var(--paper-warm);
+  border-bottom: 1px solid var(--rule);
+  transition: background 0.15s;
+  user-select: none;
+}
+.section-group-header:hover { background: var(--rule-soft); }
+
+.section-group-title {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+}
+.section-group-title h2 {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: var(--ink);
+  margin: 0;
+  line-height: 1.2;
+}
+.section-group-count {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.section-group-toggle {
+  color: var(--text-soft);
+  transition: transform 0.2s;
+  display: inline-flex;
+}
+.section-group.collapsed .section-group-toggle { transform: rotate(-90deg); }
+
+.section-group-body {
+  padding: var(--s-4) var(--s-5);
+  background: var(--paper);
+}
+.section-group.collapsed .section-group-body { display: none; }
+.section-group.collapsed .section-group-header { border-bottom: none; }
+
+.section-group-body .rec-block:last-child { margin-bottom: 0; }
+.section-group-body .rec-block {
+  border: none;
+  border-top: 1px solid var(--rule-soft);
+  padding: var(--s-4) 0;
+  margin-bottom: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+.section-group-body .rec-block:first-child { border-top: none; padding-top: 0; }
+
+/* =========================================================================
+   ICON UTILITY — wrappers for inline icon usage
+   ========================================================================= */
+.icon-circle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--paper-warm);
+  color: var(--ink);
+  flex-shrink: 0;
+}
+.icon-circle.green { background: var(--standard-bg); color: var(--standard); }
+.icon-circle.amber { background: var(--moderate-bg); color: var(--moderate); }
+.icon-circle.crimson { background: var(--high-bg); color: var(--high); }
+
+/* =========================================================================
+   TYPOGRAPHY (continued)
+   ========================================================================= */
+
+/* =========================================================================
    LAYOUT
    ========================================================================= */
 .app {
@@ -652,8 +870,8 @@ p:last-child { margin-bottom: 0; }
    LANDING PAGE — BCRAT-style informational layout
    ========================================================================= */
 .landing-hero {
-  background: linear-gradient(135deg, #FFFFFF 0%, var(--kp-blue-pale) 100%);
-  border-left: 4px solid var(--kp-blue);
+  background: linear-gradient(135deg, #FFFFFF 0%, var(--paper-warm) 100%);
+  border-left: 4px solid var(--ink);
   padding: var(--s-6);
 }
 
@@ -1289,13 +1507,14 @@ select:focus, input:focus {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
+  width: 36px;
+  height: 36px;
   background: var(--standard);
   color: var(--paper);
   border-radius: 50%;
-  font-size: 1rem;
+  flex-shrink: 0;
 }
+.privacy-panel .lock-icon .icon { width: 1.1em; height: 1.1em; }
 
 /* Acknowledgment box */
 .ack-box {
@@ -1329,8 +1548,8 @@ select:focus, input:focus {
    ========================================================================= */
 .result-hero {
   border-radius: var(--radius-lg);
-  padding: var(--s-6);
-  margin-bottom: var(--s-5);
+  padding: var(--s-7) var(--s-6);
+  margin-bottom: var(--s-7);
   position: relative;
   overflow: hidden;
 }
@@ -1513,14 +1732,80 @@ select:focus, input:focus {
   gap: var(--s-3);
 }
 
-@media (min-width: 640px) {
-  .export-grid { grid-template-columns: repeat(3, 1fr); }
+/* PDF is the primary export — full-width, prominent */
+.export-primary {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--s-3);
+  padding: var(--s-4) var(--s-5);
+  background: var(--kp-blue);
+  color: var(--paper);
+  border: 1.5px solid var(--kp-blue);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: all 0.15s;
+  text-align: center;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 600;
+  min-height: 56px;
+  letter-spacing: 0.01em;
+}
+.export-primary:hover {
+  background: var(--kp-blue-dark);
+  border-color: var(--kp-blue-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(0, 121, 184, 0.25);
+}
+.export-primary .icon { width: 1.3em; height: 1.3em; }
+
+/* Secondary export options — small, inline, less visual weight */
+.export-secondary-row {
+  display: flex;
+  gap: var(--s-2);
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  margin-top: var(--s-3);
+  font-size: 0.85rem;
+  color: var(--text-soft);
+}
+.export-secondary-row .export-label {
+  color: var(--text-muted);
+  margin-right: var(--s-1);
+}
+.export-secondary-link {
+  background: none;
+  border: none;
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  cursor: pointer;
+  padding: var(--s-1) var(--s-2);
+  border-radius: var(--radius);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.12s;
+  text-decoration: underline;
+  text-decoration-color: var(--rule);
+  text-underline-offset: 3px;
+}
+.export-secondary-link:hover {
+  color: var(--kp-blue-dark);
+  text-decoration-color: var(--kp-blue);
+  background: var(--paper-warm);
+}
+.export-secondary-sep {
+  color: var(--rule);
 }
 
-/* Save callout — friendly "save before you leave" panel */
+/* Save callout — neutral panel with action emphasis on the primary button */
 .save-callout {
-  background: linear-gradient(135deg, var(--kp-blue-pale) 0%, var(--paper) 100%);
-  border: 1.5px solid var(--kp-blue-soft);
+  background: var(--paper);
+  border: 1px solid var(--rule);
   position: relative;
 }
 
@@ -1528,12 +1813,12 @@ select:focus, input:focus {
   position: absolute;
   top: var(--s-5);
   right: var(--s-5);
-  font-size: 2rem;
-  opacity: 0.85;
+  color: var(--text-muted);
+  opacity: 0.65;
 }
 
 .save-callout h2 {
-  color: var(--kp-blue-dark);
+  color: var(--ink);
   padding-right: var(--s-7);
 }
 
@@ -1825,6 +2110,22 @@ select:focus, input:focus {
   .timeline-date { background: #333 !important; color: white !important; }
   .rec-note { background: #f5f5f5 !important; color: black !important; }
   .check-mark { border-color: #333 !important; }
+
+  /* ----------------------------------------------------------------
+     CRITICAL: force all collapsible section groups open during print.
+     The on-screen UI starts with "Follow-up" and "Additional considerations"
+     collapsed (display: none). Without this override, the printed PDF
+     would exclude them — losing the 3-year timeline, PET-CT pathway,
+     GI endoscopy, and nasoendoscopy recommendations. Same for the
+     patient inputs summary at the bottom.
+     ---------------------------------------------------------------- */
+  .section-group { border: 1px solid #999 !important; background: white !important; page-break-inside: avoid; margin-bottom: 1rem !important; }
+  .section-group.collapsed .section-group-body,
+  .section-group .section-group-body { display: block !important; padding: 0.75rem 1rem !important; }
+  .section-group-header { background: #f5f5f5 !important; border-bottom: 1px solid #999 !important; cursor: default !important; padding: 0.5rem 1rem !important; }
+  .section-group-toggle { display: none !important; }
+  .section-group-count { color: #666 !important; }
+
   /* Print-only document title */
   .screen.active::before {
     content: 'IIM Cancer Screening Assessment — IMACS 2023 Guideline';
@@ -1974,55 +2275,34 @@ select:focus, input:focus {
     </button>
   </div>
 
-  <!-- About the Calculator -->
+  <!-- About this calculator (merged About + Limitations) -->
   <div class="card">
-    <h2>About the Calculator</h2>
-    <p class="mt-3">This tool implements the 2023 International Guideline for IIM-Associated Cancer Screening, developed by the International Myositis Assessment and Clinical Studies Group (IMACS) and published in <em>Nature Reviews Rheumatology</em> (Oldroyd et al., 2023).</p>
-    <p>It uses IIM subtype, autoantibody profile, demographics, and clinical features — together with red-flag symptoms and geographic considerations — to generate a patient-specific risk category (standard, moderate, or high) and an individualised cancer-screening plan.</p>
+    <h2>About this calculator</h2>
+    <p class="mt-3">This tool implements the 2023 International Guideline for IIM-Associated Cancer Screening, developed by IMACS and published in <em>Nature Reviews Rheumatology</em> (Oldroyd et al., 2023). It uses IIM subtype, autoantibody profile, demographics, clinical features, red-flag symptoms, and geographic considerations to generate a patient-specific risk category (standard, moderate, or high) and an individualised screening plan.</p>
+
+    <h3 style="margin-top:1.5rem;margin-bottom:0.5rem;font-size:1rem;">Important limitations</h3>
+    <p class="small">Risk categories are <strong>relative to the IIM population</strong>, not the general population — standard-risk patients still likely carry elevated risk versus the general population. No source-guideline recommendation has GRADE A (high-quality) evidence; many rest on expert consensus. Negative screening does not exclude cancer. All IIM patients should continue age- and sex-appropriate general-population cancer screening regardless of this tool's output.</p>
+
+    <p class="small mt-3"><strong>The tool does not apply to:</strong> juvenile-onset IIM (&lt;18 at onset), verified inclusion body myositis (IBM), patients with active or recently diagnosed cancer, or patients more than 3 years from IIM symptom onset.</p>
+
+    <p class="small mt-3 muted">Regulatory status, full disclaimers, and EMR interoperability details are available in <a href="#" onclick="showModal('about'); return false;" style="color:var(--ink);text-decoration:underline;text-decoration-color:var(--rule);text-underline-offset:3px;">About &amp; full disclaimers</a>.</p>
   </div>
 
-  <!-- Tool Limitations -->
-  <div class="card">
-    <h2>Tool Limitations</h2>
-    <p class="mt-3">Risk categories are <strong>relative to the IIM population</strong>, not the general population — standard-risk patients still likely carry elevated risk versus the general population. No source-guideline recommendation has GRADE A (high-quality) evidence; many rest on expert consensus. Negative screening does not exclude cancer.</p>
-
-    <p class="mt-4"><strong>This tool does not apply to:</strong></p>
-    <ul class="limitations-list">
-      <li><strong>Juvenile-onset IIM</strong> (under 18 at symptom onset) — additional cancer screening is not routinely required (standard risk equivalent)</li>
-      <li><strong>Verified inclusion body myositis (IBM)</strong> — additional cancer screening is not routinely required (standard risk equivalent)</li>
-      <li>Patients with currently active or recently diagnosed cancer</li>
-      <li>Patients more than 3 years from IIM symptom onset (recommendations less validated)</li>
-    </ul>
-
-    <p>All IIM patients should continue age- and sex-appropriate general-population cancer screening regardless of this tool's output.</p>
-  </div>
-
-  <!-- Privacy -->
+  <!-- Privacy panel — green "good outcome" framing -->
   <div class="privacy-panel">
-    <h4><span class="lock-icon">🔒</span> No patient data is stored</h4>
+    <h4><span class="lock-icon"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" style="width:1.1em;height:1.1em;"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span> No patient data is stored</h4>
     <p>This tool processes all information locally in your browser. <strong>No patient information is transmitted to, collected by, or stored on any external server.</strong> When you close or refresh this page, all entered data is permanently erased. Exported files (PDF, text, JSON) are generated in your browser and downloaded directly to your device.</p>
     <p class="mt-3"><strong>Do not enter directly-identifying patient information</strong> (name, date of birth, medical record number) into this tool. Use anonymous case identifiers only if you wish to label an assessment.</p>
     <p class="mt-3 small"><strong>What is remembered locally on your device:</strong> your selected country and that you have acknowledged these disclaimers. These can be cleared at any time by clearing your browser data. No clinical or patient information is included.</p>
   </div>
 
-  <!-- Regulatory Notice -->
-  <div class="card">
-    <h2>Regulatory notice</h2>
-    <p class="mt-3">This tool has not been evaluated or approved by the FDA (US), MHRA (UK), EMA (EU), Health Canada, TGA (Australia/NZ), or any other regulatory authority as a medical device. It is provided for informational and clinical-decision-support use only by licensed healthcare professionals. Clinicians and institutions remain responsible for verifying compliance with applicable local laws.</p>
-    <p class="small mt-3">This tool is an independent implementation of the IMACS guideline and has not been formally endorsed by IMACS or the source-guideline authors.</p>
-  </div>
-
-  <!-- Resources -->
-  <div class="card">
-    <h2>Resources</h2>
-    <ul class="resource-list">
-      <li>
-        <a href="https://doi.org/10.1038/s41584-023-01045-w" target="_blank" rel="noopener">
-          Oldroyd AGS, Callen JP, Chinoy H, et al. International Guideline for IIM-Associated Cancer Screening (IMACS). <em>Nat Rev Rheumatol</em> 19, 805–817 (2023). ↗
-        </a>
-      </li>
-    </ul>
-  </div>
+  <!-- Resources — single line -->
+  <p class="small muted text-center mt-3" style="text-align:center;">
+    <strong style="color:var(--text);">Source:</strong>
+    <a href="https://doi.org/10.1038/s41584-023-01045-w" target="_blank" rel="noopener" style="color:var(--ink);text-decoration:underline;text-decoration-color:var(--rule);text-underline-offset:3px;">
+      Oldroyd et al., <em>Nat Rev Rheumatol</em> 19, 805–817 (2023) <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" style="width:0.9em;height:0.9em;"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+    </a>
+  </p>
 
   <!-- Version/footer info -->
   <div class="landing-footer-info">
@@ -2316,7 +2596,7 @@ select:focus, input:focus {
       <span class="exit-badge-icon">✓</span>
       <span>Standard risk — no additional cancer screening routinely required</span>
     </div>
-    <span class="exit-icon" id="exitIcon">ℹ️</span>
+    <span class="exit-icon" id="exitIcon"></span>
     <h2 id="exitTitle">Routine screening not required</h2>
     <p class="lead mt-3" id="exitMessage"></p>
     <div class="exit-followup mt-5">
@@ -2588,7 +2868,7 @@ const MAAS = [
 const FEATURES = [
   { id: 'persistent_activity',
     name: 'Persistent high disease activity despite immunosuppression',
-    subtitle: '⚠️ Includes relapse of previously controlled disease',
+    subtitle: 'Includes relapse of previously controlled disease',
     risk: 'high',
     info: 'Persistent activity (or relapse of previously controlled disease) is associated with increased cancer risk, particularly in anti-TIF1γ positive patients.' },
   { id: 'dysphagia', name: 'Dysphagia (moderate to severe)', risk: 'high',
@@ -2744,7 +3024,7 @@ function renderRegionalDisclaimer() {
   if (!d) { container.innerHTML = ''; return; }
   container.innerHTML = `
     <div class="disclaimer-panel">
-      <h4><span class="icon">🌐</span> ${d.title}</h4>
+      <h4>${icon('globe')} ${d.title}</h4>
       ${d.body}
     </div>`;
 }
@@ -2763,15 +3043,17 @@ function checkEligibility() {
 }
 
 function showExit(reason) {
-  const icon = document.getElementById('exitIcon');
+  const iconEl = document.getElementById('exitIcon');
   const title = document.getElementById('exitTitle');
   const message = document.getElementById('exitMessage');
   if (reason === 'juvenile') {
-    icon.textContent = '👶';
+    iconEl.innerHTML = icon('baby', 'icon-3x');
+    iconEl.style.color = 'var(--standard)';
     title.textContent = 'Juvenile-onset IIM';
     message.innerHTML = `Per <strong>IMACS Recommendation 1</strong>, additional cancer screening beyond age-appropriate general-population screening is <strong>not routinely required</strong> for patients with juvenile-onset IIM. Cancer risk in this group is not increased compared with the general population.<br><br>Clinicians should remain vigilant for features that may suggest underlying cancer: abnormal complete blood count, unexplained weight loss, fevers, splenomegaly, and lymphadenopathy.`;
   } else if (reason === 'ibm') {
-    icon.textContent = '🔬';
+    iconEl.innerHTML = icon('microscope', 'icon-3x');
+    iconEl.style.color = 'var(--standard)';
     title.textContent = 'Verified inclusion body myositis (IBM)';
     message.innerHTML = `Per <strong>IMACS Recommendation 2</strong>, additional cancer screening beyond age-appropriate general-population screening is <strong>not routinely required</strong> for patients with verified IBM. Cancer risk is similar to the general population (standardised incidence rate ~1.0 in cohort studies).<br><br><strong>Note:</strong> Emerging evidence suggests a possible association between IBM and T-cell large granular lymphocytic leukaemia. Consider this in patients with persistent unexplained cytopenias or lymphocytosis.`;
   }
@@ -2815,79 +3097,107 @@ function buildSubtypeGrid() {
 function buildMSAGrid() {
   const g = document.getElementById('msaGrid');
   g.innerHTML = '';
-  MSAS.forEach(a => {
-    const label = document.createElement('label');
-    // Map risk → CSS classes
-    let riskClass, badgeClass, badgeLabel;
-    if (a.risk === 'status') {
-      riskClass = 'neutral';
-      badgeClass = 'neutral';
-      badgeLabel = 'Status';
-    } else if (a.risk === 'intermediate') {
-      riskClass = badgeClass = 'moderate';
-      badgeLabel = 'Intermediate';
-    } else {
-      riskClass = badgeClass = a.risk;
-      badgeLabel = capitalise(a.risk);
-    }
-    label.className = `check-item risk-${riskClass}` + (a.special ? ' msa-status-item' : '');
-    label.innerHTML = `
-      <input type="checkbox" value="${a.id}">
-      <span class="check-label">
-        <span class="check-name">
-          ${a.name}
-          <span class="risk-badge ${badgeClass}">${badgeLabel}</span>
-          ${infoBtn(a.info)}
-        </span>
-      </span>`;
-    label.querySelector('input').addEventListener('change', e => {
-      // MSA_NEGATIVE and MSA_NOT_DONE are mutually exclusive with specific antibodies AND with each other
-      if (e.target.checked && (a.id === 'MSA_NEGATIVE' || a.id === 'MSA_NOT_DONE')) {
-        // Uncheck all other MSAs
-        document.querySelectorAll('#msaGrid input[type="checkbox"]').forEach(cb => {
-          if (cb !== e.target) {
-            cb.checked = false;
-            cb.closest('.check-item').classList.remove('selected');
-          }
-        });
-        STATE.msa.clear();
-      } else if (e.target.checked) {
-        // If any specific antibody / OTHER selected, unselect the negative/not-done flags
-        ['MSA_NEGATIVE', 'MSA_NOT_DONE'].forEach(id => {
-          const cb = document.querySelector(`#msaGrid input[value="${id}"]`);
-          if (cb && cb.checked) {
-            cb.checked = false;
-            cb.closest('.check-item').classList.remove('selected');
-            STATE.msa.delete(id);
-          }
-        });
+
+  // Group definitions — used for section labels in the compact row list
+  const groups = [
+    { ids: ['TIF1g', 'NXP2', 'MDA5', 'Mi2', 'SAE1'], label: 'DM-associated antibodies' },
+    { ids: ['Jo1', 'nonJo1'], label: 'Anti-synthetase syndrome' },
+    { ids: ['HMGCR', 'SRP'], label: 'IMNM-associated' },
+    { ids: ['MSA_OTHER', 'MSA_NEGATIVE', 'MSA_NOT_DONE'], label: 'Other status' }
+  ];
+
+  // Wrap all rows in a single row-list container
+  const container = document.createElement('div');
+  container.className = 'row-list';
+
+  groups.forEach(grp => {
+    // Section label
+    const sectionLabel = document.createElement('div');
+    sectionLabel.className = 'row-list-section-label';
+    sectionLabel.textContent = grp.label;
+    container.appendChild(sectionLabel);
+
+    grp.ids.forEach(id => {
+      const a = MSAS.find(m => m.id === id);
+      if (!a) return;
+
+      let riskClass, badgeClass, badgeLabel;
+      if (a.risk === 'status') {
+        riskClass = 'neutral'; badgeClass = 'neutral'; badgeLabel = 'Status';
+      } else if (a.risk === 'intermediate') {
+        riskClass = badgeClass = 'moderate'; badgeLabel = 'Intermediate';
+      } else {
+        riskClass = badgeClass = a.risk; badgeLabel = capitalise(a.risk);
       }
-      if (e.target.checked) STATE.msa.add(a.id); else STATE.msa.delete(a.id);
-      label.classList.toggle('selected', e.target.checked);
-      updateLiveCalc();
+
+      const row = document.createElement('label');
+      row.className = `row-item risk-${riskClass}` + (a.special ? ' row-status' : '');
+      row.innerHTML = `
+        <input type="checkbox" value="${a.id}">
+        <span class="row-item-name">${a.name}</span>
+        <span class="risk-badge ${badgeClass}">${badgeLabel}</span>
+        <span class="row-item-info" tabindex="0" onclick="event.preventDefault(); event.stopPropagation();">
+          ${icon('info')}
+          <span class="info-popover">${a.info.replace(/"/g, '&quot;')}</span>
+        </span>`;
+      row.querySelector('input').addEventListener('change', e => {
+        // MSA_NEGATIVE and MSA_NOT_DONE are mutually exclusive with specific antibodies
+        if (e.target.checked && (a.id === 'MSA_NEGATIVE' || a.id === 'MSA_NOT_DONE')) {
+          document.querySelectorAll('#msaGrid input[type="checkbox"]').forEach(cb => {
+            if (cb !== e.target) {
+              cb.checked = false;
+              cb.closest('.row-item').classList.remove('selected');
+            }
+          });
+          STATE.msa.clear();
+        } else if (e.target.checked) {
+          ['MSA_NEGATIVE', 'MSA_NOT_DONE'].forEach(sid => {
+            const cb = document.querySelector(`#msaGrid input[value="${sid}"]`);
+            if (cb && cb.checked) {
+              cb.checked = false;
+              cb.closest('.row-item').classList.remove('selected');
+              STATE.msa.delete(sid);
+            }
+          });
+        }
+        if (e.target.checked) STATE.msa.add(a.id); else STATE.msa.delete(a.id);
+        row.classList.toggle('selected', e.target.checked);
+        updateLiveCalc();
+      });
+      container.appendChild(row);
     });
-    g.appendChild(label);
   });
+
+  g.appendChild(container);
 }
 
 function buildMAAGrid() {
   const g = document.getElementById('maaGrid');
   g.innerHTML = '';
+
+  const container = document.createElement('div');
+  container.className = 'row-list';
+
   MAAS.forEach(a => {
-    const label = document.createElement('label');
-    label.className = 'check-item risk-low';
-    label.innerHTML = `
+    const row = document.createElement('label');
+    row.className = 'row-item risk-low';
+    row.innerHTML = `
       <input type="checkbox" value="${a.id}">
-      <span class="check-label">
-        <span class="check-name">${a.name} <span class="risk-badge low">Low</span></span>
+      <span class="row-item-name">${a.name}</span>
+      <span class="risk-badge low">Low</span>
+      <span class="row-item-info" tabindex="0" onclick="event.preventDefault(); event.stopPropagation();">
+        ${icon('info')}
+        <span class="info-popover">All MAAs are classified as low cancer risk; included for completeness in the documented antibody profile.</span>
       </span>`;
-    label.querySelector('input').addEventListener('change', e => {
+    row.querySelector('input').addEventListener('change', e => {
       if (e.target.checked) STATE.maa.add(a.id); else STATE.maa.delete(a.id);
-      label.classList.toggle('selected', e.target.checked);
+      row.classList.toggle('selected', e.target.checked);
       updateLiveCalc();
     });
-    g.appendChild(label);
+    container.appendChild(row);
   });
+
+  g.appendChild(container);
 }
 
 function buildFeaturesGrid() {
@@ -2897,7 +3207,7 @@ function buildFeaturesGrid() {
     const label = document.createElement('label');
     const riskClass = f.risk === 'intermediate' ? 'moderate' : f.risk;
     label.className = `check-item risk-${riskClass}`;
-    const subtitleHtml = f.subtitle ? `<span class="feature-subtitle">${f.subtitle}</span>` : '';
+    const subtitleHtml = f.subtitle ? `<span class="feature-subtitle">${icon('alert')} ${f.subtitle}</span>` : '';
     label.innerHTML = `
       <input type="checkbox" value="${f.id}">
       <span class="check-label">
@@ -3170,6 +3480,78 @@ function capitalise(s) {
 }
 
 /* ============================================================
+   SVG ICON LIBRARY — Lucide-style outline icons
+   Single weight, consistent style, inherits currentColor
+   ============================================================ */
+const ICONS = {
+  // Privacy & security
+  lock: '<path d="M5 11h14v9H5z"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>',
+  shield: '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>',
+
+  // Actions
+  download: '<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>',
+  copy: '<rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>',
+  externalLink: '<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>',
+  refresh: '<polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>',
+  edit: '<path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>',
+  send: '<line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>',
+
+  // Info & alerts
+  info: '<circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>',
+  alert: '<path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>',
+  alertCircle: '<circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>',
+  check: '<polyline points="20 6 9 17 4 12"/>',
+  checkCircle: '<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>',
+
+  // Content & documents
+  fileText: '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/>',
+  code: '<polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>',
+  bookOpen: '<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>',
+  bookmark: '<path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>',
+
+  // Medical / clinical
+  stethoscope: '<path d="M4.8 2.3A.3.3 0 1 0 5 2H4a2 2 0 0 0-2 2v5a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6V4a2 2 0 0 0-2-2h-1a.2.2 0 1 0 .3.3"/><path d="M8 15v1a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6v-4"/><circle cx="20" cy="10" r="2"/>',
+  heart: '<path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>',
+  activity: '<polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>',
+  microscope: '<path d="M6 18h8M3 22h18M14 22a7 7 0 1 0 0-14h-1"/><path d="M9 14h2M9 12a2 2 0 0 1-2-2V6h6v4a2 2 0 0 1-2 2h-2zM12 6V3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v3"/>',
+  baby: '<path d="M9 12h.01M15 12h.01M10 16c.5.3 1.2.5 2 .5s1.5-.2 2-.5"/><path d="M19 6.3a9 9 0 0 1 1.8 3.9 2 2 0 0 1 0 3.6 9 9 0 0 1-17.6 0 2 2 0 0 1 0-3.6A9 9 0 0 1 12 3c2 0 3.5 1.1 3.5 2.5s-.9 2.5-2 2.5c-.8 0-1.5-.4-1.5-1"/>',
+
+  // UI
+  chevronDown: '<polyline points="6 9 12 15 18 9"/>',
+  chevronRight: '<polyline points="9 18 15 12 9 6"/>',
+  chevronLeft: '<polyline points="15 18 9 12 15 6"/>',
+  arrowRight: '<line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>',
+  x: '<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>',
+  plus: '<line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>',
+  minus: '<line x1="5" y1="12" x2="19" y2="12"/>',
+
+  // Calendar / time
+  calendar: '<rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>',
+  clock: '<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>',
+
+  // Other
+  globe: '<circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>',
+  user: '<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>',
+  flag: '<path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/>',
+  award: '<circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/>',
+  bug: '<rect x="8" y="6" width="8" height="14" rx="4"/><path d="M19 7l-3 2M5 7l3 2M19 19l-3-2M5 19l3-2M20 13h-4M4 13h4M14 6.1V4a2 2 0 1 0-4 0v2.1"/>',
+  scale: '<path d="M16 16l3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1z"/><path d="M2 16l3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1z"/><path d="M7 21h10M12 3v18M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/>'
+};
+
+/**
+ * Returns SVG markup for an icon. Usage: icon('lock'), icon('check', 'icon-lg')
+ * @param {string} name - key in ICONS
+ * @param {string} cls - additional CSS class(es), optional
+ * @returns {string} SVG markup
+ */
+function icon(name, cls) {
+  const body = ICONS[name];
+  if (!body) return '';
+  const klass = 'icon' + (cls ? ' ' + cls : '');
+  return `<svg class="${klass}" viewBox="0 0 24 24" aria-hidden="true">${body}</svg>`;
+}
+
+/* ============================================================
    RESULTS RENDERING
    ============================================================ */
 function renderResults() {
@@ -3207,40 +3589,22 @@ function renderResults() {
     <div class="quick-actions no-print" role="toolbar" aria-label="Quick save actions">
       <span class="quick-actions-label">Quick save:</span>
       <button class="quick-action-btn" onclick="exportPDF()" title="Download as PDF — opens print dialog">
-        <span class="quick-action-icon">📥</span>
+        ${icon('download')}
         <span>PDF</span>
       </button>
       <button class="quick-action-btn" onclick="copyToClipboard()" title="Copy clinical summary to clipboard">
-        <span class="quick-action-icon">📋</span>
+        ${icon('copy')}
         <span>Copy summary</span>
       </button>
       <span class="quick-actions-hint">More export options below ↓</span>
     </div>
-
-    <div class="card">
-      <h2>Patient summary</h2>
-      <table style="width:100%;margin-top:1rem;border-collapse:collapse;font-size:0.9rem;">
-        <tbody>
-          ${STATE.caseId ? `<tr><td style="padding:6px 0;color:var(--text-muted);width:40%;">Case identifier</td><td style="padding:6px 0;font-family:var(--font-mono);">${escapeHtml(STATE.caseId)}</td></tr>` : ''}
-          <tr><td style="padding:6px 0;color:var(--text-muted);">Assessment date</td><td style="padding:6px 0;font-family:var(--font-mono);">${STATE.assessmentDate}</td></tr>
-          <tr><td style="padding:6px 0;color:var(--text-muted);">Region</td><td style="padding:6px 0;">${STATE.country}</td></tr>
-          <tr><td style="padding:6px 0;color:var(--text-muted);">IIM subtype</td><td style="padding:6px 0;">${SUBTYPES.find(s => s.id === STATE.subtype)?.name || '—'}</td></tr>
-          <tr><td style="padding:6px 0;color:var(--text-muted);">Sex</td><td style="padding:6px 0;">${STATE.sex ? capitalise(STATE.sex) : '—'}</td></tr>
-          <tr><td style="padding:6px 0;color:var(--text-muted);">Age at IIM onset</td><td style="padding:6px 0;">${STATE.ageOnset === 'over40' ? '>40 years' : (STATE.ageOnset === 'under40' ? '18–40 years' : '—')}</td></tr>
-          <tr><td style="padding:6px 0;color:var(--text-muted);">Time since onset</td><td style="padding:6px 0;">${STATE.timeSinceOnset === 'within3' ? 'Within 3 years' : (STATE.timeSinceOnset === 'beyond3' ? '>3 years' : '—')}</td></tr>
-          <tr><td style="padding:6px 0;color:var(--text-muted);">Positive MSAs</td><td style="padding:6px 0;">${STATE.msa.size ? Array.from(STATE.msa).map(id => MSAS.find(a=>a.id===id)?.name).join(', ') : 'None recorded'}</td></tr>
-          <tr><td style="padding:6px 0;color:var(--text-muted);">Positive MAAs</td><td style="padding:6px 0;">${STATE.maa.size ? Array.from(STATE.maa).map(id => MAAS.find(a=>a.id===id)?.name).join(', ') : 'None recorded'}</td></tr>
-          <tr><td style="padding:6px 0;color:var(--text-muted);vertical-align:top;">Red flags</td><td style="padding:6px 0;">${STATE.redFlags.size ? Array.from(STATE.redFlags).map(id => RED_FLAGS.find(f=>f.id===id)?.name).join(', ') : 'None'}</td></tr>
-        </tbody>
-      </table>
-    </div>
   `;
 
-  // Red flag alert
+  // Red flag alert — clinically urgent, gets visual priority directly under the risk hero
   if (STATE.redFlags.size > 0) {
     html += `
-      <div class="rec-block" style="border-left:4px solid var(--high);background:var(--high-bg);">
-        <h3><span style="color:var(--high);">⚠ Red flags present</span> <span class="rec-meta"><span class="rec-tag cond">Conditional</span><span class="rec-tag evidence-d">Evidence D</span></span></h3>
+      <div class="rec-block" style="border-left:4px solid var(--high);background:var(--high-bg);margin-bottom:var(--s-6);">
+        <h3><span style="color:var(--high);display:inline-flex;align-items:center;gap:8px;">${icon('alert', 'icon-lg')} Red flags present</span> <span class="rec-meta"><span class="rec-tag cond">Conditional</span><span class="rec-tag evidence-d">Evidence D</span></span></h3>
         <p><strong>Recommendation 18:</strong> The following red-flag features should prompt consideration of cancer screening regardless of overall risk category:</p>
         <ul class="order-list">
           ${Array.from(STATE.redFlags).map(id => `<li><span class="check-mark"></span><span>${RED_FLAGS.find(f=>f.id===id)?.name}</span></li>`).join('')}
@@ -3250,43 +3614,81 @@ function renderResults() {
     `;
   }
 
-  // Render all the recommendation blocks
+  // Screening plan recommendations (At diagnosis / Follow-up / Additional considerations)
   html += plan;
 
-  // Export buttons — friendly save/share framing
+  // Export panel — neutral card, with PDF prominent and TXT/JSON demoted to secondary links
   html += `
     <div class="card no-print save-callout">
-      <div class="save-callout-icon">📥</div>
+      <div class="save-callout-icon">${icon('download', 'icon-xl')}</div>
       <h2>Save or share this assessment</h2>
       <p class="lead mt-2">Because no data is stored, this assessment lives only in your current browser session. <strong>Download it now</strong> if you'd like to keep it, attach it to the patient's chart, or share it with a colleague.</p>
-      <div class="export-grid mt-4">
-        <button class="export-btn" onclick="exportPDF()">
-          <span class="export-icon">PDF</span>
-          <span class="export-title">Download as PDF</span>
-          <span class="export-desc">Print-ready summary — opens print dialog, choose "Save as PDF" to download.</span>
-        </button>
-        <button class="export-btn" onclick="exportClinicalNote()">
-          <span class="export-icon">TXT</span>
-          <span class="export-title">Clinical note summary</span>
-          <span class="export-desc">Structured text summary to paste into Epic, Cerner, EMIS, or any EMR.</span>
-        </button>
-        <button class="export-btn" onclick="exportJSON()">
-          <span class="export-icon">JSON</span>
-          <span class="export-title">FHIR-aligned JSON</span>
-          <span class="export-desc">Structured data for system integration, audit, or research.</span>
+
+      <div class="mt-4">
+        <button class="export-primary" onclick="exportPDF()">
+          ${icon('download')}
+          <span>Download as PDF</span>
         </button>
       </div>
-      <div class="btn-row mt-4">
-        <button class="btn btn-secondary" onclick="copyToClipboard()">📋 Copy summary to clipboard</button>
-        <button class="btn btn-ghost" onclick="restart()">Start a new assessment</button>
+
+      <div class="export-secondary-row">
+        <span class="export-label">Also export as:</span>
+        <button class="export-secondary-link" onclick="exportClinicalNote()" title="Structured text summary to paste into Epic, Cerner, EMIS, or any EMR">
+          ${icon('fileText')} clinical note (.txt)
+        </button>
+        <span class="export-secondary-sep">·</span>
+        <button class="export-secondary-link" onclick="exportJSON()" title="HL7 FHIR-aligned JSON for system integration, audit, or research">
+          ${icon('code')} FHIR JSON
+        </button>
+        <span class="export-secondary-sep">·</span>
+        <button class="export-secondary-link" onclick="copyToClipboard()" title="Copy clinical summary to clipboard">
+          ${icon('copy')} copy summary
+        </button>
       </div>
-      <p class="small muted mt-4" style="text-align:center;">
-        🔒 All files are generated in your browser and downloaded directly to your device. Nothing is transmitted to any server.
+
+      <div class="btn-row mt-4" style="justify-content:center;">
+        <button class="btn btn-ghost" onclick="restart()">${icon('refresh')} Start a new assessment</button>
+      </div>
+
+      <p class="small muted mt-4" style="text-align:center;display:flex;align-items:center;justify-content:center;gap:6px;">
+        ${icon('lock')} All files generated in your browser and downloaded directly. Nothing is transmitted to any server.
       </p>
       <p class="small mt-3" style="text-align:center;">
         Have feedback about this recommendation, or notice something off?
-        <a href="https://docs.google.com/forms/d/e/1FAIpQLScoHYamqz3i2Nz2sKEBcG-5Cw12Famzbdf-XHPiAjsrUCW4Pg/viewform" target="_blank" rel="noopener" style="color:var(--kp-blue);font-weight:500;">Tell us &rarr;</a>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLScoHYamqz3i2Nz2sKEBcG-5Cw12Famzbdf-XHPiAjsrUCW4Pg/viewform" target="_blank" rel="noopener" style="color:var(--ink);font-weight:500;text-decoration:underline;text-decoration-color:var(--kp-blue);text-underline-offset:3px;">Tell us ${icon('arrowRight')}</a>
       </p>
+    </div>
+  `;
+
+  // --- Patient summary (collapsed by default, at the bottom) ---
+  // Inputs the clinician already entered — confirmatory, not actionable. Lives here for chart documentation and export verification.
+  html += `
+    <div class="section-group collapsed" data-collapsible style="margin-top:var(--s-5);">
+      <div class="section-group-header" onclick="toggleSectionGroup(this)">
+        <div class="section-group-title">
+          ${icon('fileText', 'icon-lg')}
+          <h2>Patient inputs &amp; assessment details</h2>
+          <span class="section-group-count">summary of entered data</span>
+        </div>
+        <span class="section-group-toggle">${icon('chevronDown', 'icon-lg')}</span>
+      </div>
+      <div class="section-group-body">
+        <table style="width:100%;border-collapse:collapse;font-size:0.9rem;">
+          <tbody>
+            ${STATE.caseId ? `<tr><td style="padding:6px 0;color:var(--text-muted);width:40%;">Case identifier</td><td style="padding:6px 0;font-family:var(--font-mono);">${escapeHtml(STATE.caseId)}</td></tr>` : ''}
+            <tr><td style="padding:6px 0;color:var(--text-muted);">Assessment date</td><td style="padding:6px 0;font-family:var(--font-mono);">${STATE.assessmentDate}</td></tr>
+            <tr><td style="padding:6px 0;color:var(--text-muted);">Region</td><td style="padding:6px 0;">${STATE.country || '—'}</td></tr>
+            <tr><td style="padding:6px 0;color:var(--text-muted);">IIM subtype</td><td style="padding:6px 0;">${SUBTYPES.find(s => s.id === STATE.subtype)?.name || '—'}</td></tr>
+            <tr><td style="padding:6px 0;color:var(--text-muted);">Sex</td><td style="padding:6px 0;">${STATE.sex ? capitalise(STATE.sex) : '—'}</td></tr>
+            <tr><td style="padding:6px 0;color:var(--text-muted);">Age at IIM onset</td><td style="padding:6px 0;">${STATE.ageOnset === 'over40' ? '>40 years' : (STATE.ageOnset === 'under40' ? '18–40 years' : '—')}</td></tr>
+            <tr><td style="padding:6px 0;color:var(--text-muted);">Time since onset</td><td style="padding:6px 0;">${STATE.timeSinceOnset === 'within3' ? 'Within 3 years' : (STATE.timeSinceOnset === 'beyond3' ? '>3 years' : '—')}</td></tr>
+            <tr><td style="padding:6px 0;color:var(--text-muted);vertical-align:top;">Positive MSAs</td><td style="padding:6px 0;">${STATE.msa.size ? Array.from(STATE.msa).map(id => MSAS.find(a=>a.id===id)?.name).join(', ') : 'None recorded'}</td></tr>
+            <tr><td style="padding:6px 0;color:var(--text-muted);vertical-align:top;">Positive MAAs</td><td style="padding:6px 0;">${STATE.maa.size ? Array.from(STATE.maa).map(id => MAAS.find(a=>a.id===id)?.name).join(', ') : 'None recorded'}</td></tr>
+            <tr><td style="padding:6px 0;color:var(--text-muted);vertical-align:top;">Clinical features</td><td style="padding:6px 0;">${STATE.features.size ? Array.from(STATE.features).map(id => FEATURES.find(f=>f.id===id)?.name).join('; ') : 'None recorded'}</td></tr>
+            <tr><td style="padding:6px 0;color:var(--text-muted);vertical-align:top;">Red flags</td><td style="padding:6px 0;">${STATE.redFlags.size ? Array.from(STATE.redFlags).map(id => RED_FLAGS.find(f=>f.id===id)?.name).join(', ') : 'None'}</td></tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   `;
 
@@ -3294,20 +3696,24 @@ function renderResults() {
 }
 
 function buildScreeningPlan(r, isNPC) {
-  let html = '';
+  // Build three groups:
+  //   At diagnosis: General-pop reminder, Basic panel, Enhanced panel (if applicable)
+  //   Follow-up: Year 1/2/3 timeline for high-risk OR brief note for standard/moderate
+  //   Additional considerations: PET-CT, Rec 15 PET-CT pathway, GI endoscopy, Nasoendoscopy
 
-  // General population screening reminder (Rec 3)
-  html += `
+  // --- AT DIAGNOSIS ---
+  let atDiagnosis = '';
+
+  atDiagnosis += `
     <div class="rec-block">
       <h3>Continue general-population cancer screening
         <span class="rec-meta"><span class="rec-tag strong">Strong</span><span class="rec-tag evidence-b">Evidence B</span><span class="rec-tag">Rec 3</span></span>
       </h3>
-      <p>Regardless of risk category, all patients with IIM should participate in country- or region-specific age- and sex-appropriate cancer screening programmes available in <strong>${STATE.country}</strong> (e.g., mammography, cervical, bowel/colorectal, low-dose CT for lung cancer where indicated).</p>
+      <p>Regardless of risk category, all patients with IIM should participate in country- or region-specific age- and sex-appropriate cancer screening programmes${STATE.country ? ` available in <strong>${STATE.country}</strong>` : ''} (e.g., mammography, cervical, bowel/colorectal, low-dose CT for lung cancer where indicated).</p>
     </div>
   `;
 
-  // Basic panel (Rec 9) — all patients with adult IIM
-  html += `
+  atDiagnosis += `
     <div class="rec-block">
       <h3>Basic cancer screening — at diagnosis
         <span class="rec-meta"><span class="rec-tag strong">Strong</span><span class="rec-tag evidence-c">Evidence C</span><span class="rec-tag">Rec 9</span></span>
@@ -3327,29 +3733,50 @@ function buildScreeningPlan(r, isNPC) {
     </div>
   `;
 
-  // Enhanced panel (Rec 10) — moderate + high
+  let atDiagnosisCount = 2;
   if (r.category === 'moderate' || r.category === 'high') {
-    html += `
+    const sex = STATE.sex;
+    const enhancedItems = [
+      { txt: '<strong>CT of neck, thorax, abdomen, and pelvis</strong> (with contrast where appropriate)', show: 'all' },
+      { txt: 'Cervical screening (if not already current per general-population programme)', show: 'female' },
+      { txt: 'Mammography (if not already current per general-population programme)', show: 'female' },
+      { txt: 'Prostate-specific antigen (PSA) blood test (if not already current)', show: 'male' },
+      { txt: 'CA-125 blood test', show: 'female' },
+      { txt: 'Pelvic or transvaginal ultrasonography for ovarian cancer', show: 'female' },
+      { txt: 'Faecal occult blood / FIT (if not already current per general-population programme)', show: 'all' }
+    ];
+    const visibleItems = enhancedItems.filter(item => {
+      if (item.show === 'all') return true;
+      if (!sex) return true;
+      return item.show === sex;
+    });
+    const renderItem = (item) => {
+      let t = item.txt;
+      if (!sex && item.show !== 'all') {
+        t += ` <span class="muted small">(${item.show === 'male' ? 'males' : 'females'} only)</span>`;
+      }
+      return `<li><span class="check-mark"></span><span>${t}</span></li>`;
+    };
+
+    atDiagnosis += `
       <div class="rec-block">
         <h3>Enhanced cancer screening — at diagnosis
           <span class="rec-meta"><span class="rec-tag strong">Strong</span><span class="rec-tag evidence-c">Evidence C</span><span class="rec-tag">Rec 10, 12, 13</span></span>
         </h3>
         <p>${r.category === 'high' ? 'High-risk' : 'Moderate-risk'} patients should additionally undergo:</p>
         <ul class="order-list">
-          <li><span class="check-mark"></span><span><strong>CT of neck, thorax, abdomen, and pelvis</strong> (with contrast where appropriate)</span></li>
-          <li><span class="check-mark"></span><span>Cervical screening (if not already current per general-population programme)</span></li>
-          <li><span class="check-mark"></span><span>Mammography (if not already current per general-population programme)</span></li>
-          <li><span class="check-mark"></span><span>Prostate-specific antigen (PSA) blood test (males, if not already current)</span></li>
-          <li><span class="check-mark"></span><span>CA-125 blood test (females)</span></li>
-          <li><span class="check-mark"></span><span>Pelvic or transvaginal ultrasonography for ovarian cancer (females)</span></li>
-          <li><span class="check-mark"></span><span>Faecal occult blood / FIT (if not already current per general-population programme)</span></li>
+          ${visibleItems.map(renderItem).join('')}
         </ul>
         <div class="rec-note">Avoid duplicating tests recently performed under general-population screening. Weigh cumulative radiation exposure (CT-based investigations) against benefit on an individual patient basis.</div>
       </div>
     `;
+    atDiagnosisCount = 3;
   }
 
-  // High-risk follow-up
+  // --- FOLLOW-UP ---
+  let followUp = '';
+  let followUpCount = 0;
+
   if (r.category === 'high') {
     const date = new Date(STATE.assessmentDate);
     const yr1 = new Date(date); yr1.setFullYear(yr1.getFullYear() + 1);
@@ -3357,7 +3784,7 @@ function buildScreeningPlan(r, isNPC) {
     const yr3 = new Date(date); yr3.setFullYear(yr3.getFullYear() + 3);
     const fmt = d => d.toISOString().slice(0, 10);
 
-    html += `
+    followUp += `
       <div class="rec-block">
         <h3>Annual basic screening for 3 years
           <span class="rec-meta"><span class="rec-tag strong">Strong</span><span class="rec-tag">Rec 13</span></span>
@@ -3379,12 +3806,23 @@ function buildScreeningPlan(r, isNPC) {
         </div>
       </div>
     `;
+    followUpCount = 1;
+  } else {
+    followUp += `
+      <div class="rec-block" style="background:var(--paper-warm);border-style:dashed;">
+        <h3>Follow-up</h3>
+        <p class="small">No routine repeat screening is recommended at scheduled intervals for ${r.category}-risk patients per the guideline. Re-stratify if clinical features, autoantibody profile, or disease activity change. Patients remain within the 3-year window of elevated risk from symptom onset.</p>
+      </div>
+    `;
+    followUpCount = 1;
   }
 
-  // Additional considerations for high-risk: PET-CT and GI endoscopy
+  // --- ADDITIONAL CONSIDERATIONS ---
+  let additional = '';
+  let additionalCount = 0;
+
   if (r.category === 'high') {
-    // PET-CT (Rec 14)
-    html += `
+    additional += `
       <div class="rec-block">
         <h3>Consider ¹⁸F-FDG PET–CT
           <span class="rec-meta"><span class="rec-tag cond">Conditional</span><span class="rec-tag evidence-c">Evidence C</span><span class="rec-tag">Rec 14</span></span>
@@ -3393,15 +3831,15 @@ function buildScreeningPlan(r, isNPC) {
         <div class="rec-note">PET–CT can identify cancers at a comparable rate to multiple conventional investigations combined. Balance benefit against cumulative radiation exposure and local availability.</div>
       </div>
     `;
+    additionalCount++;
 
-    // Special: PET-CT as single investigation (Rec 15)
     const isTIF1pos = STATE.msa.has('TIF1g');
     const isDM = STATE.subtype === 'DM';
     const isOver40 = STATE.ageOnset === 'over40';
     const highRiskClinFeatures = ['persistent_activity', 'dysphagia', 'cutaneous_necrosis'].filter(f => STATE.features.has(f)).length;
     if (isTIF1pos && isDM && isOver40 && highRiskClinFeatures >= 1) {
-      html += `
-        <div class="rec-block" style="border-color:var(--accent);">
+      additional += `
+        <div class="rec-block" style="border-left:4px solid var(--accent);background:rgba(168,80,28,0.04);">
           <h3>¹⁸F-FDG PET–CT as single screening investigation
             <span class="rec-meta"><span class="rec-tag cond">Conditional</span><span class="rec-tag evidence-c">Evidence C</span><span class="rec-tag">Rec 15</span></span>
           </h3>
@@ -3409,10 +3847,10 @@ function buildScreeningPlan(r, isNPC) {
           <div class="rec-note">This option may be particularly valuable where the patient would otherwise undergo many sequential investigations. Local availability and radiation exposure considerations still apply.</div>
         </div>
       `;
+      additionalCount++;
     }
 
-    // GI endoscopy (Rec 16)
-    html += `
+    additional += `
       <div class="rec-block">
         <h3>Consider upper &amp; lower GI endoscopy
           <span class="rec-meta"><span class="rec-tag cond">Conditional</span><span class="rec-tag evidence-d">Evidence D</span><span class="rec-tag">Rec 16</span></span>
@@ -3421,11 +3859,11 @@ function buildScreeningPlan(r, isNPC) {
         <div class="rec-note">Weigh procedural risks (e.g., bowel perforation) against benefit. May overlap with country-specific bowel cancer screening programmes.</div>
       </div>
     `;
+    additionalCount++;
   }
 
-  // Nasoendoscopy (Rec 17) — triggered by geography
   if (isNPC) {
-    html += `
+    additional += `
       <div class="rec-block">
         <h3>Consider nasoendoscopy
           <span class="rec-meta"><span class="rec-tag cond">Conditional</span><span class="rec-tag evidence-d">Evidence D</span><span class="rec-tag">Rec 17</span></span>
@@ -3433,14 +3871,61 @@ function buildScreeningPlan(r, isNPC) {
         <p><strong>Triggered by selected region (${STATE.country}):</strong> elevated nasopharyngeal carcinoma incidence. Consider nasoendoscopy at the time of IIM diagnosis. Reported prevalence of nasopharyngeal cancer in adults with dermatomyositis: 37% in Hong Kong, 28% in Malaysia, 12% in Singapore.</p>
       </div>
     `;
+    additionalCount++;
   }
 
-  // Standard-risk follow-up note
-  if (r.category === 'standard' || r.category === 'moderate') {
+  // --- Assemble collapsible section groups ---
+  // At diagnosis: expanded by default. Follow-up + Additional: collapsed by default.
+  let html = '';
+
+  html += `
+    <div class="section-group" data-collapsible>
+      <div class="section-group-header" onclick="toggleSectionGroup(this)">
+        <div class="section-group-title">
+          ${icon('checkCircle', 'icon-lg')}
+          <h2>At diagnosis</h2>
+          <span class="section-group-count">${atDiagnosisCount} item${atDiagnosisCount !== 1 ? 's' : ''}</span>
+        </div>
+        <span class="section-group-toggle">${icon('chevronDown', 'icon-lg')}</span>
+      </div>
+      <div class="section-group-body">
+        ${atDiagnosis}
+      </div>
+    </div>
+  `;
+
+  if (followUp) {
     html += `
-      <div class="rec-block" style="background:var(--paper-warm);border-style:dashed;">
-        <h3>Follow-up</h3>
-        <p class="small">No routine repeat screening is recommended at scheduled intervals for ${r.category}-risk patients per the guideline. Re-stratify if clinical features, autoantibody profile, or disease activity change. Patients remain within the 3-year window of elevated risk from symptom onset.</p>
+      <div class="section-group collapsed" data-collapsible>
+        <div class="section-group-header" onclick="toggleSectionGroup(this)">
+          <div class="section-group-title">
+            ${icon('calendar', 'icon-lg')}
+            <h2>Follow-up</h2>
+            <span class="section-group-count">${followUpCount} item${followUpCount !== 1 ? 's' : ''}</span>
+          </div>
+          <span class="section-group-toggle">${icon('chevronDown', 'icon-lg')}</span>
+        </div>
+        <div class="section-group-body">
+          ${followUp}
+        </div>
+      </div>
+    `;
+  }
+
+  if (additional) {
+    html += `
+      <div class="section-group collapsed" data-collapsible>
+        <div class="section-group-header" onclick="toggleSectionGroup(this)">
+          <div class="section-group-title">
+            ${icon('info', 'icon-lg')}
+            <h2>Additional considerations</h2>
+            <span class="section-group-count">${additionalCount} item${additionalCount !== 1 ? 's' : ''}</span>
+          </div>
+          <span class="section-group-toggle">${icon('chevronDown', 'icon-lg')}</span>
+        </div>
+        <div class="section-group-body">
+          ${additional}
+        </div>
       </div>
     `;
   }
@@ -3448,11 +3933,34 @@ function buildScreeningPlan(r, isNPC) {
   return html;
 }
 
+// Toggle for collapsible section groups
+function toggleSectionGroup(headerEl) {
+  const group = headerEl.closest('.section-group');
+  if (group) group.classList.toggle('collapsed');
+}
+
 /* ============================================================
    EXPORTS
    ============================================================ */
 function exportPDF() {
-  window.print();
+  // Belt-and-suspenders: programmatically expand all collapsible sections before printing
+  // so that "Follow-up", "Additional considerations", and the patient summary all appear in the PDF.
+  // CSS @media print rules also force this, but JS expansion is a defensive backup
+  // in case any browser handles the @media print specificity differently.
+  const collapsedBeforePrint = [];
+  document.querySelectorAll('.section-group.collapsed').forEach(g => {
+    collapsedBeforePrint.push(g);
+    g.classList.remove('collapsed');
+  });
+
+  // Give the browser a moment to apply the layout, then print
+  setTimeout(() => {
+    window.print();
+    // After the print dialog closes, restore the original collapsed state for the on-screen UI
+    setTimeout(() => {
+      collapsedBeforePrint.forEach(g => g.classList.add('collapsed'));
+    }, 100);
+  }, 50);
 }
 
 function buildClinicalNoteText() {
@@ -3508,14 +4016,21 @@ function buildClinicalNoteText() {
   lines.push('    - Chest radiograph');
 
   if (r.category === 'moderate' || r.category === 'high') {
+    const sex = STATE.sex;
     lines.push('');
     lines.push('  ENHANCED PANEL:');
     lines.push('    - CT neck/thorax/abdomen/pelvis');
-    lines.push('    - Cervical screening (if not already current)');
-    lines.push('    - Mammography (if not already current)');
-    lines.push('    - PSA (male, if not already current)');
-    lines.push('    - CA-125 (female)');
-    lines.push('    - Pelvic/transvaginal US for ovarian cancer (female)');
+    if (!sex || sex === 'female') {
+      lines.push('    - Cervical screening (if not already current)');
+      lines.push('    - Mammography (if not already current)');
+    }
+    if (!sex || sex === 'male') {
+      lines.push('    - PSA (if not already current)');
+    }
+    if (!sex || sex === 'female') {
+      lines.push('    - CA-125');
+      lines.push('    - Pelvic/transvaginal US for ovarian cancer');
+    }
     lines.push('    - FOBT/FIT (if not already current)');
   }
 
@@ -3669,9 +4184,20 @@ function buildFHIRJSON() {
    'Serum protein electrophoresis and free light chains', 'Urinalysis', 'Chest radiograph']
     .forEach(o => addOrder(null, o));
   if (r.category === 'moderate' || r.category === 'high') {
-    ['CT neck/thorax/abdomen/pelvis', 'Cervical screening (if not current)', 'Mammography (if not current)',
-     'PSA (male)', 'CA-125 (female)', 'Pelvic/transvaginal ultrasonography (female)', 'FOBT/FIT (if not current)']
-      .forEach(o => addOrder(null, o));
+    const sex = STATE.sex;
+    addOrder(null, 'CT neck/thorax/abdomen/pelvis');
+    if (!sex || sex === 'female') {
+      addOrder(null, 'Cervical screening (if not current)');
+      addOrder(null, 'Mammography (if not current)');
+    }
+    if (!sex || sex === 'male') {
+      addOrder(null, 'PSA (if not current)');
+    }
+    if (!sex || sex === 'female') {
+      addOrder(null, 'CA-125');
+      addOrder(null, 'Pelvic/transvaginal ultrasonography');
+    }
+    addOrder(null, 'FOBT/FIT (if not current)');
   }
   if (r.category === 'high') {
     addOrder(null, '18F-FDG PET-CT (consider, Rec 14)');
